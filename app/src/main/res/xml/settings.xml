@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+  <SwitchPreference
+      android:defaultValue="false"
+      android:key="prefs_notifications"
+      android:title="Enable Notifications"/>
+
+  <Preference
+      android:key="@string/erase_everything"
+      android:summary="This will erase everything that this app knows"
+      android:title="Reset Application"/>
+
+  <Preference
+      android:key="@string/send_feedback"
+      android:summary="We appreciate your feedback. What did you like or dislike ?"
+      android:title="Send Feedback"/>
+
+
+  <Preference
+      android:key="version"
+      android:summary="@string/version"
+      android:title="Version"/>
+
+
+  <Preference
+      android:key="credits"
+      android:summary="App icon made by By Salvia Santos, http://www.salvieta.com/"
+      android:title="Credits"/>
+
+  <Preference
+      android:key="copyright"
+      android:summary="Android Advance © 2017. All rights reserved."
+      android:title="Copyright"/>
+
+
+</PreferenceScreen>

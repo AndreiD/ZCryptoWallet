@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical"
+    >
+
+
+  <LinearLayout
+      android:id="@+id/linlayout_fragmenthome_public_balance"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:background="@drawable/border_round_blue_border"
+      android:orientation="vertical"
+      >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="First Time User"
+        android:textColor="@color/app_blue"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        />
+    <Button
+        android:id="@+id/button_new_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="GENERATE NEW ACCOUNT"
+        android:textColor="@color/White"
+        />
+
+  </LinearLayout>
+
+  <TextView
+      android:id="@+id/textView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:gravity="center"
+      android:text="or "
+      />
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="16dp"
+      android:background="@drawable/border_round_blue_border"
+      android:orientation="vertical"
+      >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:text="Restore Account (under development)"
+        android:textColor="@color/app_grey"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/textViewx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:text="If you need to restore an account, please contact us. This function will be implemented in the future..."
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/app_black"
+        >
+      <EditText
+          android:id="@+id/editText_public_address"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="4dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
+          android:hint="@string/publicAddress"
+          android:enabled="false"
+          android:textColor="@color/app_black"
+          android:textColorHint="@color/app_black"
+          android:textSize="12sp"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/app_black"
+        >
+      <EditText
+          android:id="@+id/editText_public_address_private_key"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="4dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
+          android:enabled="false"
+          android:hint="@string/publicPrivateKey"
+          android:textColor="@color/app_black"
+          android:textColorHint="@color/app_black"
+          android:textSize="12sp"
+          />
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/button_new_account_restore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:layout_margin="8dp"
+        android:text="RESTORE"
+        android:textColor="@color/White"
+        />
+  </LinearLayout>
+
+
+</LinearLayout>
+
