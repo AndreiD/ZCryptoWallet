@@ -78,7 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:gravity="center"
-        android:text="If you need to restore an account, please contact us. This function will be implemented in the future..."
+        android:textColor="@color/material_red"
+        android:text="If you need to restore an account, please contact us. This functionality will be implemented in the future."
         />
 
     <android.support.design.widget.TextInputLayout

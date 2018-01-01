@@ -10,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -20,7 +21,7 @@ public interface TheAPI {
 
   @GET("getBalanceForAddress//{deviceId}") Call<JsonObject> getBalance(@Path("deviceId") String deviceId); //the_device_id5
 
-  @POST("createnewuser") Call<JsonObject> createnewuser();
+  @POST("createnewuser") Call<JsonObject> createnewuser(@Body JsonObject body);
 
 
   class Factory {

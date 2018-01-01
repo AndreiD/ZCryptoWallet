@@ -8,6 +8,30 @@
     >
 
 
+  <RadioGroup
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="2"
+      android:orientation="horizontal"
+      >
+    <RadioButton
+        android:id="@+id/radioButtonPrivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checked="true"
+        android:text="Private Address"
+        android:textColor="@color/app_grey"
+        />
+    <RadioButton
+        android:id="@+id/radioButtonPublic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Public Address"
+        android:textColor="@color/app_grey"
+        />
+  </RadioGroup>
   <ImageView
       android:id="@+id/imageView_qrcode_receive"
       android:layout_width="match_parent"
@@ -21,16 +45,16 @@
       />
 
   <TextView
-      android:id="@+id/textView_receive_btcaddress"
+      android:id="@+id/textView_receive_zenaddress"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:layout_marginBottom="64dp"
-      android:textIsSelectable="true"
       android:layout_weight="2"
       android:gravity="center"
-      android:text="btc.address"
+      android:text="zen.address"
       android:textColor="@color/appcolor_grey"
+      android:textIsSelectable="true"
       android:textSize="12sp"
       />
   <Button

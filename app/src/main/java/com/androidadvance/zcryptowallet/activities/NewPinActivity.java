@@ -1,11 +1,9 @@
 package com.androidadvance.zcryptowallet.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.widget.Button;
 import android.widget.EditText;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,19 +39,16 @@ public class NewPinActivity extends BaseActivity {
       DialogFactory.error_toast(NewPinActivity.this, "Pin 1 is not equal to pin 2.").show();
       return;
     }
+    if (pin1.length() < 3) {
+      DialogFactory.error_toast(NewPinActivity.this, "Pin is too short. Type at least 4 numbers please").show();
+      return;
+    }
 
     SecurityHolder.pin = pin1;
 
+    SecurityHolder.storePIN(this, pin1);
 
-    //startActivity(new Intent(NewPinActivity.this, MainActivity.class));
-
-    //verify deviceId exists on server
-
-    boolean deviceIdExists = false;
-
-    if(!deviceIdExists) {
-      FragmentManager fragmentManager = getSupportFragmentManager();
-      fragmentManager.beginTransaction().replace(android.R.id.content, NewAccountFragment.newInstance()).addToBackStack(null).commit();
-    }
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    fragmentManager.beginTransaction().replace(android.R.id.content, NewAccountFragment.newInstance()).addToBackStack(null).commit();
   }
 }

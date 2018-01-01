@@ -10,6 +10,8 @@ public class PreferencesHelper {
   public static final String PREF_FILE_NAME = "myapp_shared_prefs";
   private static final String KEY_DEVICE_ID = "KEY_device_id";
   private static final String KEY_PIN = "KEY_PIN";
+  private static final String KEY_PUBLIC_ADDRESS = "KEY_PUBLIC_ADDRESS";
+  private static final String KEY_PRIVATE_ADDRESS = "KEY_PRIVATE_ADDRESS";
 
   public PreferencesHelper(Context context) {
     mPref = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
@@ -27,14 +29,29 @@ public class PreferencesHelper {
     mPref.edit().putString(KEY_DEVICE_ID, deviceID).apply();
   }
 
-  //encrypted
+  //all below are encrypted
   public String getPIN() {
     return mPref.getString(KEY_PIN, null);
   }
 
-  //encrypted
   public void setPIN(String pin) {
     mPref.edit().putString(KEY_PIN, pin).apply();
+  }
+
+  public String getPublicAddress() {
+    return mPref.getString(KEY_PUBLIC_ADDRESS, null);
+  }
+
+  public void setPublicAddress(String publicAddress) {
+    mPref.edit().putString(KEY_PUBLIC_ADDRESS, publicAddress).apply();
+  }
+
+  public String getPrivateAddress() {
+    return mPref.getString(KEY_PRIVATE_ADDRESS, null);
+  }
+
+  public void setPrivateAddress(String privateAddress) {
+    mPref.edit().putString(KEY_PRIVATE_ADDRESS, privateAddress).apply();
   }
 }
 

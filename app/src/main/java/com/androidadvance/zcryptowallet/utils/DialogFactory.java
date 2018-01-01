@@ -36,13 +36,9 @@ public final class DialogFactory {
   }
 
   public static ProgressDialog createProgressDialog(Context context, String message) {
-    ProgressDialog progressDialog = new ProgressDialog(context);
+    ProgressDialog progressDialog = new ProgressDialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
     progressDialog.setMessage(message);
     return progressDialog;
-  }
-
-  public static ProgressDialog createProgressDialog(Context context, @StringRes int messageResource) {
-    return createProgressDialog(context, context.getString(messageResource));
   }
 
   public static StyleableToast success_toast(Context context, String message) {
