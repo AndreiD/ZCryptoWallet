@@ -49,9 +49,6 @@ public class AfterSendingFragment extends BaseFragment {
 
     opid = getArguments().getString("opid", null);
 
-    //TODO: COMMENT
-    opid = "opid-2571b369-4c71-4cde-b3b8-0934d427bb44";
-
     myTimer.scheduleAtFixedRate(new MyTask(), INTERVAL, INTERVAL);
   }
 
