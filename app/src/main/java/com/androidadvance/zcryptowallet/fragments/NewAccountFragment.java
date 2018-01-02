@@ -64,7 +64,7 @@ public class NewAccountFragment extends BaseFragment {
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
     theAPI.createnewuser(newUserJsonObject).enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-        if (response.code() == 200 || response.code() == 201) {
+        if (response.code() < 300) {
           JsonObject jsonObjectKeys = response.body();
           String public_address = jsonObjectKeys.get("public_address").getAsString();
           String priv_key_public_address = jsonObjectKeys.get("priv_key_public_address").getAsString();
@@ -87,6 +87,7 @@ public class NewAccountFragment extends BaseFragment {
               + priv_key_private_address);
           progressDialog.dismiss();
         } else {
+          progressDialog.dismiss();
           DialogFactory.createGenericErrorDialog(getActivity(),
               "Due to the large amount of users, registration of new accounts is currently closed. Please try again later.").show();
         }
@@ -134,8 +135,9 @@ public class NewAccountFragment extends BaseFragment {
 
     btn_dlg_continue.setOnClickListener(v -> {
       Intent i_main = new Intent(context, MainActivity.class);
-      dialog.dismiss();
+      i_main.putExtra("isjustcreated", true);
       context.startActivity(i_main);
+      dialog.dismiss();
     });
   }
 }

@@ -24,6 +24,7 @@ public class MainActivity extends BaseActivity {
   @BindView(R.id.bottomBar) BottomBar bottomBar;
 
   private MainActivity mContext;
+  private boolean isjustcreated = false;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -33,6 +34,11 @@ public class MainActivity extends BaseActivity {
     setSupportActionBar(theToolbar);
     getSupportActionBar().setElevation(0);
     mContext = MainActivity.this;
+
+    Bundle bundle = getIntent().getExtras();
+    if((bundle != null) && bundle.containsKey("isjustcreated")) {
+      isjustcreated = bundle.getBoolean("isjustcreated", false);
+    }
 
     bottomBar.setDefaultTab(R.id.tab_home);
     bottomBar.setOnTabSelectListener(tabId -> {
@@ -44,7 +50,7 @@ public class MainActivity extends BaseActivity {
       }
       if (tabId == R.id.tab_home) {
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.contentContainer, HomeFragment.newInstance());
+        t.replace(R.id.contentContainer, HomeFragment.newInstance(isjustcreated));
         t.addToBackStack("fragment_home");
         t.commit();
       }

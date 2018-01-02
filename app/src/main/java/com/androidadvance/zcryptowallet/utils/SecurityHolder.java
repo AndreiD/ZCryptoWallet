@@ -12,6 +12,9 @@ public class SecurityHolder {
   public static String pin = "";
   public static String public_address = "";
   public static String private_address = "";
+  public static double current_balance_public = 0;
+  public static double current_balance_private = 0;
+  public static String lastScanAddress = "";
 
   //So it uses the random generated deviceID to encrypt the pin.
   //Using a rooted phone is not recommended :)
