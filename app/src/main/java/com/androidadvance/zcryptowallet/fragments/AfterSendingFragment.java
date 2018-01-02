@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class AfterSendingFragment extends BaseFragment {
   private String opid;
-  private final static int INTERVAL = 1000 * 10; //1000 * 60 * 2; //2 minutes
+  private final static int INTERVAL = 1000 * 60 * 2; //2 minutes
   Timer myTimer = new Timer("MyTimer", true);
 
   public AfterSendingFragment() {
