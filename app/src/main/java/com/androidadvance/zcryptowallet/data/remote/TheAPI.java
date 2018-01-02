@@ -19,9 +19,13 @@ public interface TheAPI {
 
   String BASE_URL = "http://94.26.15.137:1330/api/v1/";
 
-  @GET("getBalanceForAddress//{deviceId}") Call<JsonObject> getBalance(@Path("deviceId") String deviceId); //the_device_id5
+  @GET("getBalanceForAddress/{deviceId}") Call<JsonObject> getBalance(@Path("deviceId") String deviceId);
+
+  @GET("check_opid/{opid}") Call<JsonObject> checkOpid(@Path("opid") String opid);
 
   @POST("createnewuser") Call<JsonObject> createnewuser(@Body JsonObject body);
+
+  @POST("send") Call<JsonObject> sendMoney(@Body JsonObject body);
 
 
   class Factory {

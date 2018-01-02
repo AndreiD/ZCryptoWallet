@@ -1,5 +1,6 @@
 package com.androidadvance.zcryptowallet.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -69,10 +70,14 @@ public class ReceiveFragment extends BaseFragment {
 
   @OnClick(R.id.btn_receive_share) public void onClickBtnShare() {
 
-    //Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-    //sharingIntent.setType("text/plain");
-    //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Please send BTC to this address");
-    //sharingIntent.putExtra(Intent.EXTRA_TEXT, SecurityHolder.btcAddress + " <img src=\"http://chart.apis.google.com/chart?cht=qr&chs=500x500&chl="+  SecurityHolder.btcAddress.replaceAll("\"","")+"&chld=H|0\"");
-    //startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
+    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+    sharingIntent.setType("text/plain");
+    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Please send ZEN to this address");
+    sharingIntent.putExtra(Intent.EXTRA_TEXT, textView_receive_zenaddress.getText().toString()
+        + " <img src=\"http://chart.apis.google.com/chart?cht=qr&chs=500x500&chl="
+        + textView_receive_zenaddress.getText().toString().replaceAll("\"", "")
+        + "&chld=H|0\"");
+
+    startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
   }
 }

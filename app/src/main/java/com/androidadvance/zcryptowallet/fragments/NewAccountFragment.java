@@ -71,8 +71,6 @@ public class NewAccountFragment extends BaseFragment {
           String private_address = jsonObjectKeys.get("private_address").getAsString();
           String priv_key_private_address = jsonObjectKeys.get("priv_key_private_address").getAsString();
 
-          SecurityHolder.public_address = public_address;
-          SecurityHolder.private_address = private_address;
 
           SecurityHolder.storePublicAddress(getActivity(), public_address);
           SecurityHolder.storePrivateAddress(getActivity(), private_address);

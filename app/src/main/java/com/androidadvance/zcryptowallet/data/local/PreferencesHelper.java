@@ -26,7 +26,7 @@ public class PreferencesHelper {
   }
 
   public void setDeviceID(String deviceID) {
-    mPref.edit().putString(KEY_DEVICE_ID, deviceID).apply();
+    mPref.edit().putString(KEY_DEVICE_ID, deviceID).commit();
   }
 
   //all below are encrypted
