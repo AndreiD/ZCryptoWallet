@@ -74,6 +74,7 @@
           android:layout_marginLeft="8dp"
           android:layout_marginTop="16dp"
           android:text="Send to "
+          android:textColor="@color/app_grey"
           android:textSize="18sp"
           android:textStyle="bold"
           />
@@ -91,10 +92,10 @@
             android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:ems="10"
-            android:gravity="center"
             android:inputType="text"
             android:lines="2"
-            android:text="Name"
+            android:textColor="@color/black"
+            android:text=""
             android:textSize="12sp"
             />
         <ImageButton
@@ -115,6 +116,7 @@
           android:layout_marginTop="32dp"
           android:layout_weight="0"
           android:text="Amount "
+          android:textColor="@color/app_grey"
           android:textSize="18sp"
           android:textStyle="bold"
           />
@@ -131,15 +133,16 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:ems="10"
+            android:textColor="@color/black"
             android:gravity="center"
             android:inputType="numberDecimal"
             />
         <TextView
             android:id="@+id/send_textView_zen"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
+            android:layout_marginLeft="4dp"
             android:layout_weight="1"
             android:text="ZEN"
             android:textSize="25sp"
@@ -148,7 +151,7 @@
 
 
       </LinearLayout>
-      +
+
       <TextView
           android:id="@+id/send_textView_fee"
           android:layout_width="match_parent"

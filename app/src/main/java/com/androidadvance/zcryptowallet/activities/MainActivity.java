@@ -12,6 +12,7 @@ import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.fragments.HomeFragment;
 import com.androidadvance.zcryptowallet.fragments.ReceiveFragment;
 import com.androidadvance.zcryptowallet.fragments.SampleFragment;
+import com.androidadvance.zcryptowallet.fragments.SendFragment;
 import com.roughike.bottombar.BottomBar;
 import hotchemi.android.rate.AppRate;
 
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
     bottomBar.setOnTabSelectListener(tabId -> {
       if (tabId == R.id.tab_send) {
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.contentContainer, SampleFragment.newInstance("send"));
+        t.replace(R.id.contentContainer, SendFragment.newInstance(isjustcreated));
         t.addToBackStack("fragment_send");
         t.commit();
       }

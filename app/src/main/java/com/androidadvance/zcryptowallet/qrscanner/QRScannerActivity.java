@@ -126,10 +126,10 @@ public class QRScannerActivity extends BaseActivity implements ZXingScannerView.
 
     KLog.d("WE HAVE " + type + " = " + rawData);
 
-    //SecurityHolder.btcAddress = rawData;
-    //SecurityHolder.storeBTCAddress(QRScannerActivity.this, rawData);
-    //
-    //startActivity(new Intent(QRScannerActivity.this, EnterPinActivity.class));
-    //finish();
+    if(type.equals("address")){
+      SecurityHolder.lastScanAddress = rawData;
+      finish();
+    }
+
   }
 }

@@ -55,9 +55,9 @@ public class SendFragment extends BaseFragment {
     isjustcreated = getArguments().getBoolean("isjustcreated", false);
 
     if(send_radioButtonPublic.isChecked()) {
-      send_textView_zen.setText("ZEN (current balance: " + String.valueOf(SecurityHolder.current_balance_public));
+      send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_public)+" ZEN)");
     }else{
-      send_textView_zen.setText("ZEN (current balance: " + String.valueOf(SecurityHolder.current_balance_private));
+      send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_private)+" ZEN)");
     }
   }
 
@@ -70,9 +70,14 @@ public class SendFragment extends BaseFragment {
   @Override public void onResume() {
     super.onResume();
     KLog.d("ON RESUME CALLED!");
+    if(!SecurityHolder.lastScanAddress.isEmpty()){
+      send_editText_to.setText(SecurityHolder.lastScanAddress);
+    }
   }
 
   @OnClick(R.id.send_imageButton_scanqr) public void onClickScanQR(){
-    startActivity(new Intent(getActivity(), QRScannerActivity.class));
+    Intent iScan = new Intent(getActivity(), QRScannerActivity.class);
+    iScan.putExtra("type","address");
+    startActivity(iScan);
   }
 }
