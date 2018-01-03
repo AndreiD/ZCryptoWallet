@@ -16,7 +16,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="16dp"
-      android:background="@drawable/border_round_blue_border"
+      android:background="@drawable/border_round_orange_border"
       android:orientation="vertical"
       >
 
@@ -58,7 +58,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="16dp"
-      android:background="@drawable/border_round_blue_border"
+      android:background="@drawable/border_round_orange_border"
       android:orientation="vertical"
       >
     <TextView

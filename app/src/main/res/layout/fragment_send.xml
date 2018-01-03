@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
     android:orientation="vertical"
     >
 
@@ -19,20 +18,17 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:background="@drawable/border_round_blue"
+          android:layout_margin="8dp"
           android:orientation="vertical"
-          android:padding="4dp"
           >
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_weight="0"
-            android:text="Account to use"
-            android:textColor="@color/White"
+            android:text="From"
+            android:textColor="@color/app_grey"
             android:textSize="18sp"
-            android:textStyle="bold"
             />
         <RadioGroup
             android:layout_width="match_parent"
@@ -47,94 +43,107 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_weight="1"
-              android:buttonTint="@color/White"
               android:checked="true"
               android:padding="8dp"
               android:text="Private Address"
-              android:textColor="@color/White"
+              android:textColor="@color/black"
               />
           <RadioButton
               android:id="@+id/send_radioButtonPublic"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_weight="1"
-              android:buttonTint="@color/White"
               android:padding="8dp"
               android:text="Public Address"
-              android:textColor="@color/White"
+              android:textColor="@color/black"
               />
         </RadioGroup>
       </LinearLayout>
 
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/LightGrey"
+          />
 
       <TextView
           android:id="@+id/textView3"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginLeft="8dp"
-          android:layout_marginTop="16dp"
-          android:text="Send to "
+          android:layout_marginTop="8dp"
+          android:text="To"
           android:textColor="@color/app_grey"
           android:textSize="18sp"
-          android:textStyle="bold"
           />
 
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
           android:orientation="horizontal"
           >
         <EditText
             android:id="@+id/send_editText_to"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:ems="10"
-            android:scrollHorizontally="false"
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:textColor="@color/black"
+            android:scrollHorizontally="false"
             android:text=""
+            android:textColor="@color/black"
             android:textSize="12sp"
             />
         <ImageButton
             android:id="@+id/send_imageButton_scanqr"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_round_blue_border"
-            android:padding="16dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="@drawable/border_round_orange_border"
+            android:padding="8dp"
             app:srcCompat="@android:drawable/ic_menu_camera"
             />
       </LinearLayout>
+
 
 
       <LinearLayout
           android:id="@+id/send_linlayout_memo"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="8dp"
-          android:layout_marginTop="8dp"
+
           android:orientation="vertical"
           >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/LightGrey"
+            />
 
         <TextView
             android:id="@+id/textViewx3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:text="Memo (optional)"
             android:textColor="@color/app_grey"
             android:textSize="18sp"
-            android:textStyle="bold"
             />
 
         <EditText
             android:id="@+id/send_editText_memo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textMultiLine"
@@ -146,6 +155,12 @@
       </LinearLayout>
 
 
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/LightGrey"
+          />
+
       <TextView
           android:id="@+id/send_textView_amount"
           android:layout_width="match_parent"
@@ -156,12 +171,12 @@
           android:text="Amount "
           android:textColor="@color/app_grey"
           android:textSize="18sp"
-          android:textStyle="bold"
           />
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
           android:orientation="horizontal"
           >
         <EditText
@@ -171,34 +186,40 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:ems="10"
-            android:textColor="@color/black"
+            android:hint="0.00"
             android:inputType="numberDecimal"
+            android:textColor="@color/black"
+            android:textColorHint="@color/appcolor_grey"
             />
         <TextView
             android:id="@+id/send_textView_zen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:layout_marginLeft="4dp"
-            android:layout_weight="1"
+            android:layout_marginRight="8dp"
+            android:layout_weight="2"
             android:text="ZEN"
             android:textSize="25sp"
-            android:textStyle="bold"
             />
 
 
       </LinearLayout>
 
+
       <TextView
           android:id="@+id/send_textView_fee"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginTop="8dp"
+          android:layout_margin="8dp"
           android:layout_weight="0"
           android:text="Fee: 0.0001 ZEN"
           android:textColor="@color/app_grey"
+          />
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/LightGrey"
           />
 
       <FrameLayout

@@ -30,6 +30,13 @@
       android:title="Credits"/>
 
   <Preference
+      android:key="credits2"
+      android:summary="For exchange rate to USD, cryptocompare.com API is used. "
+      android:title="Info"/>
+
+
+
+  <Preference
       android:key="copyright"
       android:summary="Android Advance © 2017. All rights reserved."
       android:title="Copyright"/>

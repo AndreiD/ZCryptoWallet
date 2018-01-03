@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,9 @@ import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
+import com.androidadvance.zcryptowallet.data.remote.ExchangeRatesAPI;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.qrscanner.QRScannerActivity;
-import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
@@ -48,6 +50,7 @@ public class SendFragment extends BaseFragment {
 
   public static double FEE = 0.0001;
   private ProgressDialog progressDialog;
+  private double zentousd = 0;
 
   public SendFragment() {
   }
@@ -82,16 +85,68 @@ public class SendFragment extends BaseFragment {
 
     if (send_editText_to.getText().length() > 50) {
       send_linlayout_memo.setVisibility(View.VISIBLE);
+    } else {
+      send_linlayout_memo.setVisibility(View.GONE);
     }
+
+    send_editText_to.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+      }
+
+      @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if (charSequence.length() > 50) {
+          send_linlayout_memo.setVisibility(View.VISIBLE);
+        } else {
+          send_linlayout_memo.setVisibility(View.GONE);
+        }
+      }
+
+      @Override public void afterTextChanged(Editable editable) {
+      }
+    });
+
+    send_editText_amount.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+      }
+
+      @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if ((charSequence.length() > 0) && (charSequence.length() < 7) && (zentousd > 0)) {
+          send_textView_zen.setText(exchangeRateToUSD(charSequence.toString()));
+        }
+      }
+
+      @Override public void afterTextChanged(Editable editable) {
+      }
+    });
+
+    ExchangeRatesAPI exchangeRatesAPI = ExchangeRatesAPI.Factory.getIstance(getActivity());
+    exchangeRatesAPI.getExchangeRate().enqueue(new Callback<JsonObject>() {
+      @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+        if (response.code() > 299) {
+          KLog.e("error getting exchange rate...");
+          return;
+        }
+        JsonObject jsonObject = response.body();
+        zentousd = jsonObject.get("USD").getAsDouble();
+      }
+
+      @Override public void onFailure(Call<JsonObject> call, Throwable t) {
+        KLog.e(t.getLocalizedMessage());
+      }
+    });
   }
 
-  private void updateBalances() {
-
+  private String exchangeRateToUSD(String amountZen) {
+    try {
+      return String.format("ZEN ($%.2f)", Double.valueOf(amountZen) * zentousd);
+    } catch (Exception ignored) {
+    }
+    return "ZEN";//default is just ZEN
   }
 
   @Override public void onResume() {
     super.onResume();
-    KLog.d("ON RESUME CALLED!");
+
     if (!SecurityHolder.lastScanAddress.isEmpty()) {
       send_editText_to.setText(SecurityHolder.lastScanAddress);
     }
@@ -108,6 +163,10 @@ public class SendFragment extends BaseFragment {
         amount_to_send = Double.valueOf(send_editText_amount.getText().toString().trim());
       } catch (Exception ignored) {
       }
+    }
+    if (amount_to_send > 99999) {
+      DialogFactory.warning_toast(getActivity(), "This app doesn't believe that you have so much ZEN").show();
+      return;
     }
 
     if (send_editText_to.getText().toString().length() < 30) {
