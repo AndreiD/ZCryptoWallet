@@ -29,8 +29,6 @@ public class EnterPinActivity extends BaseActivity {
     ButterKnife.bind(this);
     mContext = EnterPinActivity.this;
 
-    editText_pin1.setText("123123"); //TODO: DELETE ME
-    // btn_verify_pin.performClick(); //TODO: DELETE ME
   }
 
   @OnClick(R.id.btn_verify_pin) public void onClickSaveVerify() {

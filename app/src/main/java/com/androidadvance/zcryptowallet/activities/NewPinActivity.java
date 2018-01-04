@@ -27,9 +27,6 @@ public class NewPinActivity extends BaseActivity {
     setContentView(R.layout.activity_create_pin);
     ButterKnife.bind(this);
 
-    //TODO: delete me
-    editText_pin1.setText("123123");
-    editText_pin2.setText("123123");
   }
 
   @OnClick(R.id.btn_save_new_pin) public void onClickSaveNewPin() {
