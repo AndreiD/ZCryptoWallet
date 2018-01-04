@@ -76,9 +76,9 @@ public class SendFragment extends BaseFragment {
     isjustcreated = getArguments().getBoolean("isjustcreated", false);
 
     if (send_radioButtonPublic.isChecked()) {
-      send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_public) + " ZEN)");
+      send_textView_amount.setText("Amount (balance: " + new DecimalFormat("#.#######").format(SecurityHolder.current_balance_public) + " ZEN)");
     } else {
-      send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_private) + " ZEN)");
+      send_textView_amount.setText("Amount (balance: " + new DecimalFormat("#.#######").format(SecurityHolder.current_balance_private) + " ZEN)");
     }
 
     send_linlayout_memo.setVisibility(View.GONE);
@@ -256,13 +256,13 @@ public class SendFragment extends BaseFragment {
 
   @OnCheckedChanged(R.id.send_radioButtonPublic) public void onCheckedChangedPublic() {
     if (send_radioButtonPublic.isChecked()) {
-      send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_public) + " ZEN)");
+      send_textView_amount.setText("Amount (balance: " + new DecimalFormat("#.#######").format(SecurityHolder.current_balance_public) + " ZEN)");
     }
   }
 
   @OnCheckedChanged(R.id.send_radioButtonPrivate) public void onCheckedChangedPrivate() {
     if (send_radioButtonPrivate.isChecked()) {
-      send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_private) + " ZEN)");
+      send_textView_amount.setText("Amount (balance: " + new DecimalFormat("#.#######").format(SecurityHolder.current_balance_private) + " ZEN)");
     }
   }
 }

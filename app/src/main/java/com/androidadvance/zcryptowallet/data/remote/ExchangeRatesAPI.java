@@ -18,6 +18,8 @@ public interface ExchangeRatesAPI {
 
   @GET("price?fsym=ZEN&tsyms=USD") Call<JsonObject> getExchangeRate();  //response: {"USD":52.07}
 
+  @GET("histoday?aggregate=1&e=CCCAGG&extraParams=CryptoCompare&fsym=ZEN&limit=90&tryConversion=true&tsym=USD") Call<JsonObject> getHistoryData();
+
 
   class Factory {
     private static ExchangeRatesAPI service;

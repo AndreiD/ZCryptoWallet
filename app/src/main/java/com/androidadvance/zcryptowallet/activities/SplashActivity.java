@@ -73,7 +73,8 @@ public class SplashActivity extends BaseActivity {
 
       @Override public void onAnimationEnd(Animation animation) {
         imageView_logo.setVisibility(View.INVISIBLE);
-        checkNews();
+        //checkNews();
+        check_wallet_present();
       }
 
       @Override public void onAnimationRepeat(Animation animation) {

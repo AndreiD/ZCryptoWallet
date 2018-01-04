@@ -1,5 +1,7 @@
 package com.androidadvance.zcryptowallet.fragments;
 
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,14 +12,27 @@ import butterknife.BindView;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
+import com.androidadvance.zcryptowallet.data.remote.ExchangeRatesAPI;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.socks.library.KLog;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import retrofit2.Call;
@@ -31,6 +46,7 @@ public class HomeFragment extends BaseFragment {
   @BindView(R.id.textView_fragmentHome_status) TextView textView_fragmentHome_status;
   @BindView(R.id.textView_fragmentHome_greeting) TextView textView_fragmentHome_greeting;
   @BindView(R.id.textView_fragmentHome_date) TextView textView_fragmentHome_date;
+  @BindView(R.id.home_line_chart) LineChart home_line_chart;
   private boolean isjustcreated;
 
   public HomeFragment() {
@@ -67,6 +83,87 @@ public class HomeFragment extends BaseFragment {
       textView_fragmentHome_balance_private.setText("0 ZEN");
       textView_fragmentHome_status.setText("Thank you for creating a wallet with us.");
     }
+
+    setupChart();
+  }
+
+  private void setupChart() {
+    home_line_chart.setDrawGridBackground(false);
+    home_line_chart.getDescription().setEnabled(false);
+    home_line_chart.setTouchEnabled(false);
+    home_line_chart.setDragEnabled(false);
+    home_line_chart.setScaleEnabled(false);
+    home_line_chart.setPinchZoom(false);
+    home_line_chart.setBackgroundColor(Color.WHITE);
+    home_line_chart.setDrawGridBackground(false);
+    home_line_chart.setDrawBorders(false);
+
+    ArrayList<Entry> values = new ArrayList<>();
+
+    ExchangeRatesAPI exchangeRatesAPI = ExchangeRatesAPI.Factory.getIstance(getActivity());
+    exchangeRatesAPI.getHistoryData().enqueue(new Callback<JsonObject>() {
+      @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+        if(response.code() > 299){
+          KLog.e("faild to get historical data for the chart");
+          home_line_chart.setVisibility(View.GONE);
+          return;
+        }
+
+        JsonObject jsonObject = response.body();
+        JsonArray jArrayData = jsonObject.get("Data").getAsJsonArray();
+        for(int i=0; i<jArrayData.size();i++){
+          JsonObject dataJsonObject = jArrayData.get(i).getAsJsonObject();
+          //long time = dataJsonObject.get("time").getAsLong();
+          double close = dataJsonObject.get("close").getAsDouble();
+
+          values.add(new Entry(i, (float) close));
+        }
+
+        LineDataSet set1 = new LineDataSet(values, "ZEN - USD in the last 3 months");
+        set1.setDrawIcons(false);
+        set1.setColor(Color.BLACK);
+        set1.setLineWidth(2f);
+        set1.setFormLineWidth(1f);
+        set1.setDrawCircles(false);
+        set1.setDrawValues(false);
+        set1.setDrawCircleHole(false);
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+
+        // remove axis
+        YAxis leftAxis = home_line_chart.getAxisLeft();
+        leftAxis.setEnabled(false);
+
+        YAxis rightAxis = home_line_chart.getAxisRight();
+        rightAxis.setTextColor(Color.parseColor("#df7b00"));
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setDrawZeroLine(false);
+        rightAxis.setGranularityEnabled(true);
+        rightAxis.setDrawAxisLine(false);
+        rightAxis.setValueFormatter((value, axis) -> "$"+String.valueOf((int) value));
+
+        XAxis xAxis = home_line_chart.getXAxis();
+        xAxis.setEnabled(false);
+
+
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1); // add the datasets
+        // create a data object with the datasets
+        LineData data = new LineData(dataSets);
+
+        // set data
+        home_line_chart.setData(data);
+        home_line_chart.invalidate();
+
+      }
+
+      @Override public void onFailure(Call<JsonObject> call, Throwable t) {
+        KLog.e(t.getLocalizedMessage());
+        home_line_chart.setVisibility(View.GONE);
+      }
+    });
+
+
+
   }
 
   private void updateBalances() {
@@ -90,8 +187,10 @@ public class HomeFragment extends BaseFragment {
 
         confirmed_balance_public = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_public));
         confirmed_balance_private = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_private));
-        unconfirmed_balance_public = new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_public) - Double.valueOf(confirmed_balance_public));
-        unconfirmed_balance_private = new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_private)-Double.valueOf(confirmed_balance_private));
+        unconfirmed_balance_public =
+            new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_public) - Double.valueOf(confirmed_balance_public));
+        unconfirmed_balance_private =
+            new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_private) - Double.valueOf(confirmed_balance_private));
 
         SecurityHolder.current_balance_public = Double.valueOf(confirmed_balance_public);
         SecurityHolder.current_balance_private = Double.valueOf(confirmed_balance_private);

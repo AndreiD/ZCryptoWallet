@@ -40,73 +40,88 @@
             android:textSize="12sp"
             tools:text="November 1, 2018"
             />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:id="@+id/linlayout_fragmenthome_public_balance"
-            android:background="@drawable/border_round_orange"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Public Addres Balance"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                />
-            <TextView
-                android:id="@+id/textView_fragmentHome_balance_public"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                tools:text="0.00213123 ZEN (12323 USD)"
-                />
-        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/linlayout_fragmenthome_private_balance"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/border_round_grey"
-            android:orientation="vertical"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
             >
-             <TextView
-                android:layout_width="match_parent"
+
+            <LinearLayout
+                android:id="@+id/linlayout_fragmenthome_public_balance"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="Private Address Balance"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                />
-            <TextView
-                android:id="@+id/textView_fragmentHome_balance_private"
-                android:layout_width="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_round_orange"
+                android:orientation="vertical"
+                android:padding="4dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Public Addres Balance"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    />
+                <TextView
+                    android:id="@+id/textView_fragmentHome_balance_public"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:text="0.00213123 ZEN (12323 USD)"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlayout_fragmenthome_private_balance"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                tools:text="0.00213123 ZEN (12323 USD)"
-                />
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_round_grey"
+                android:orientation="vertical"
+                android:padding="4dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Private Address Balance"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    />
+                <TextView
+                    android:id="@+id/textView_fragmentHome_balance_private"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:text="0.00213123 ZEN (12323 USD)"
+                    />
+            </LinearLayout>
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/textView_fragmentHome_status"
@@ -115,7 +130,14 @@
             android:layout_margin="16dp"
             android:gravity="center"
             android:text="status..."
-            android:textColor="@color/blue_h"
+            android:textColor="@color/grey_h"
+            />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/home_line_chart"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             />
 
     </LinearLayout>
