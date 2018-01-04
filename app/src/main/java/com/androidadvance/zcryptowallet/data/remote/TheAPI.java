@@ -19,7 +19,7 @@ import retrofit2.http.Path;
 
 public interface TheAPI {
 
-  String BASE_URL = "http://kimg.fun/api/v1/";
+  String BASE_URL = "https://kimg.fun/api/v1/";
 
   @GET("getBalanceForAddress/{deviceId}") Call<JsonObject> getBalance(@Path("deviceId") String deviceId);
 
@@ -42,23 +42,22 @@ public interface TheAPI {
         builder.connectTimeout(20, TimeUnit.SECONDS);
         builder.writeTimeout(20, TimeUnit.SECONDS);
 
-        builder.certificatePinner(new CertificatePinner.Builder().add("*.androidadvance.com", "sha256/RqzElicVPA6LkKm9HblOvNOUqWmD+4zNXcRb+WjcaAE=")
-            .add("*.xxxxxx.com", "sha256/8Rw90Ej3Ttt8RRkrg+WYDS9n7IS03bk5bjP/UXPtaY8=")
-            .add("*.xxxxxxx.com", "sha256/Ko8tivDrEjiY90yGasP6ZpBU4jwXvHqVvQI0GS3GNdA=")
-            .add("*.xxxxxxx.com", "sha256/VjLZe/p3W/PJnd6lL8JVNBCGQBZynFLdZSTIqcO0SJ8=")
+        builder.certificatePinner(new CertificatePinner.Builder()
+            .add("kimg.fun", "sha256/QGrHnzRngZcELGDSZET4qmAL1StiKcR/9j0u8oTFikc=")
+            .add("kimg.fun", "sha256/YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=")
+            .add("kimg.fun", "sha256/Vjs8r4z+80wjNcr1YKepWQboSIRi63WsWXhIMN+eWys=")
             .build());
 
-        if (BuildConfig.DEBUG) {
-          HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-          interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-          builder.addInterceptor(interceptor);
-        }
+        //if (BuildConfig.DEBUG) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(interceptor);
+        //}
 
         builder.addInterceptor(chain -> {
           Request request = chain.request().newBuilder().addHeader("Auth", "HelloDolly!").build();
           return chain.proceed(request);
         });
-
 
         Retrofit retrofit =
             new Retrofit.Builder().client(builder.build()).addConverterFactory(GsonConverterFactory.create()).baseUrl(BASE_URL).build();

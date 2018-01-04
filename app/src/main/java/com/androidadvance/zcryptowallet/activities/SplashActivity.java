@@ -1,9 +1,11 @@
 package com.androidadvance.zcryptowallet.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -13,7 +15,13 @@ import android.widget.ImageView;
 import com.androidadvance.zcryptowallet.BaseActivity;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
+import com.androidadvance.zcryptowallet.data.remote.TheAPI;
+import com.androidadvance.zcryptowallet.utils.DialogFactory;
+import com.google.gson.JsonObject;
 import com.socks.library.KLog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends BaseActivity {
 
@@ -65,7 +73,7 @@ public class SplashActivity extends BaseActivity {
 
       @Override public void onAnimationEnd(Animation animation) {
         imageView_logo.setVisibility(View.INVISIBLE);
-        check_wallet_present();
+        checkNews();
       }
 
       @Override public void onAnimationRepeat(Animation animation) {
@@ -81,6 +89,38 @@ public class SplashActivity extends BaseActivity {
         imageView_logo.startAnimation(fadeIn);
       }
     }.start();
+  }
+
+  private void checkNews() {
+
+    //TODO: add should update related to the app version number...
+
+    TheAPI theAPI = TheAPI.Factory.getIstance(SplashActivity.this);
+    theAPI.getNews().enqueue(new Callback<JsonObject>() {
+      @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+        if (response.code() > 299) {
+          KLog.e("an error occurred while trying to get the news");
+          check_wallet_present();
+          return;
+        }
+        JsonObject jsonObject = response.body();
+        String news = jsonObject.get("news").getAsString();
+
+        if ((news != null) && (!news.isEmpty())) {
+
+          AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
+          builder.setTitle("News");
+          builder.setCancelable(false);
+          builder.setMessage(news).setCancelable(false).setPositiveButton("OK", (dialog, id) -> check_wallet_present());
+          AlertDialog alert = builder.create();
+          alert.show();
+        }
+      }
+
+      @Override public void onFailure(Call<JsonObject> call, Throwable t) {
+        check_wallet_present();
+      }
+    });
   }
 
   private void check_wallet_present() {

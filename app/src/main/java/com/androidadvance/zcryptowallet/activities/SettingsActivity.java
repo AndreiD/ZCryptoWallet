@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
+import com.androidadvance.zcryptowallet.utils.DialogFactory;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -45,10 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
 
       Preference buttonfeedback = findPreference(getString(R.string.send_feedback));
       buttonfeedback.setOnPreferenceClickListener(preference -> {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "moodlamps@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.app_name) + " Feedback");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your feedback here...");
-        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        DialogFactory.simple_toast(getActivity(), "You should have an account on Discord...").show();
+        Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("https://discord.gg/p96a98Z"));
+        startActivity(viewIntent);
 
         return true;
       });
