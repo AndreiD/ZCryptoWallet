@@ -61,7 +61,7 @@ public class AfterSendingFragment extends BaseFragment {
         @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
           JsonObject jsonObject = response.body();
           if (response.code() > 299) {
-            DialogFactory.createGenericErrorDialog(getActivity(), jsonObject.toString()).show();
+            DialogFactory.createGenericErrorDialog(getActivity(), "We could not process this transaction.").show();
             return;
           }
 

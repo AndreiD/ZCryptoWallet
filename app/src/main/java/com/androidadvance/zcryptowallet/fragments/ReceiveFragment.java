@@ -73,11 +73,7 @@ public class ReceiveFragment extends BaseFragment {
     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
     sharingIntent.setType("text/plain");
     sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Please send ZEN to this address");
-    sharingIntent.putExtra(Intent.EXTRA_TEXT, textView_receive_zenaddress.getText().toString()
-        + " <img src=\"http://chart.apis.google.com/chart?cht=qr&chs=500x500&chl="
-        + textView_receive_zenaddress.getText().toString().replaceAll("\"", "")
-        + "&chld=H|0\"");
-
+    sharingIntent.putExtra(Intent.EXTRA_TEXT, textView_receive_zenaddress.getText().toString());
     startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
   }
 }

@@ -73,6 +73,10 @@ public class MainActivity extends BaseActivity {
     AppRate.with(this).setInstallDays(10).setLaunchTimes(10).setRemindInterval(2).setShowLaterButton(false).setDebug(false).monitor();
     AppRate.showRateDialogIfMeetsConditions(this);
   }
+
+  public void navigateToHome() {
+    bottomBar.selectTabAtPosition(1);
+  }
 }
 
 

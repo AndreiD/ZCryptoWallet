@@ -1,6 +1,5 @@
 package com.androidadvance.zcryptowallet.fragments;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
 import com.socks.library.KLog;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -88,24 +88,30 @@ public class HomeFragment extends BaseFragment {
         String unconfirmed_balance_public = balanceJsonObject.get("unconfirmed_balance_public").getAsString();
         String unconfirmed_balance_private = balanceJsonObject.get("unconfirmed_balance_private").getAsString();
 
+        confirmed_balance_public = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_public));
+        confirmed_balance_private = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_private));
+        unconfirmed_balance_public = new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_public) - Double.valueOf(confirmed_balance_public));
+        unconfirmed_balance_private = new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_private)-Double.valueOf(confirmed_balance_private));
+
         SecurityHolder.current_balance_public = Double.valueOf(confirmed_balance_public);
         SecurityHolder.current_balance_private = Double.valueOf(confirmed_balance_private);
 
-        //balances are equals
-        if (confirmed_balance_public.equals(unconfirmed_balance_public)) {
+        //public balances are equals
+        if ((confirmed_balance_public.equals(unconfirmed_balance_public)) || (unconfirmed_balance_public.equals("0"))) {
           textView_fragmentHome_balance_public.setText(confirmed_balance_public + " ZEN");
         } else {
           //there are unconfirmed balances!
-          textView_fragmentHome_balance_public.setText(confirmed_balance_public + " ZEN/nPending " + unconfirmed_balance_public + " ZEN");
+          textView_fragmentHome_balance_public.setText(confirmed_balance_public + " ZEN\nPending " + unconfirmed_balance_public + " ZEN");
         }
 
-        //balances are equals
-        if (confirmed_balance_private.equals(unconfirmed_balance_private)) {
+        //private balances are equals
+        if (confirmed_balance_private.equals(unconfirmed_balance_private) || (unconfirmed_balance_private.equals("0"))) {
           textView_fragmentHome_balance_private.setText(confirmed_balance_private + " ZEN");
         } else {
           //there are unconfirmed balances!
-          textView_fragmentHome_balance_private.setText(confirmed_balance_private + " ZEN/nPending " + unconfirmed_balance_private + " ZEN");
+          textView_fragmentHome_balance_private.setText(confirmed_balance_private + " ZEN\nPending " + unconfirmed_balance_private + " ZEN");
         }
+
         textView_fragmentHome_status.setText("all looks good.");
       }
 

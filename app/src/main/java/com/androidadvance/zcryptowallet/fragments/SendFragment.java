@@ -21,6 +21,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
+import com.androidadvance.zcryptowallet.activities.MainActivity;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
 import com.androidadvance.zcryptowallet.data.remote.ExchangeRatesAPI;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
@@ -30,6 +31,7 @@ import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.socks.library.KLog;
+import java.text.DecimalFormat;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,7 +81,7 @@ public class SendFragment extends BaseFragment {
       send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_private) + " ZEN)");
     }
 
-    send_editText_to.setText("zc9CvpKMQ9P6ZFoc6UMWZ5AqLujmueTpWHzUjTmJUmMJsAT9ixEbrE4mMtn1cn463x3KpJRTMGuxorpz7ut1ppNyVAczw55");
+    send_editText_to.setText("zcEwNDVP4ruiRo659NtAkExDAftYF88mM73W1CYWR98wkBT2MxdUmkSsFvxMa5jaEYk9d3qYJ1SwXvyhL2Uz9JBSE3AgAra");
 
     send_linlayout_memo.setVisibility(View.GONE);
 
@@ -204,6 +206,7 @@ public class SendFragment extends BaseFragment {
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
 
     JsonObject sendJsonObject = new JsonObject();
+
     sendJsonObject.add("fromuserdevice", new JsonPrimitive(preferencesHelper.getDeviceID()));
     if (typeAddress.equals("public")) {
       sendJsonObject.add("fromaddress", new JsonPrimitive(SecurityHolder.getPublicAddress(getActivity())));
@@ -216,26 +219,33 @@ public class SendFragment extends BaseFragment {
         sendJsonObject.add("memo", new JsonPrimitive(send_editText_memo.getText().toString().trim()));
       }
     }
-    sendJsonObject.add("fee", new JsonPrimitive(fee));
+    String strFEE = new DecimalFormat("#.########").format(fee);
+    String strAMOUNT = new DecimalFormat("#.########").format(amount);
+    sendJsonObject.add("fee", new JsonPrimitive(strFEE));
+    sendJsonObject.add("amount", new JsonPrimitive(strAMOUNT));
 
     theAPI.sendMoney(sendJsonObject).enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
         progressDialog.dismiss();
         JsonObject jsonObject = response.body();
         if (response.code() > 299) {
-          DialogFactory.error_toast(getActivity(), "OPS! Something didn't work: " + jsonObject.toString()).show();
+          DialogFactory.error_toast(getActivity(), "OPS! Something didn't work!").show();
           return;
         }
 
+        if (((MainActivity) getActivity()) != null) {
+          ((MainActivity) getActivity()).navigateToHome();
+        }
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(android.R.id.content, AfterSendingFragment.newInstance(jsonObject.get("opid").getAsString()));
         t.addToBackStack("aftersending");
         t.commit();
+
       }
 
       @Override public void onFailure(Call<JsonObject> call, Throwable t) {
         progressDialog.dismiss();
-        DialogFactory.error_toast(getActivity(), "OPS! Something didn't work: " + t.getLocalizedMessage()).show();
+        DialogFactory.error_toast(getActivity(), "OPS! Something didn't work.").show();
       }
     });
   }

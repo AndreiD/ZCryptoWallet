@@ -104,7 +104,7 @@
             android:id="@+id/send_imageButton_scanqr"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:background="@drawable/border_round_orange_border"
+            android:background="@drawable/border_round_orange_border_btn"
             android:padding="8dp"
             app:srcCompat="@android:drawable/ic_menu_camera"
             />
