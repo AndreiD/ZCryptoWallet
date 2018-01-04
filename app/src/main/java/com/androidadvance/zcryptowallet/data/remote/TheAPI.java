@@ -27,6 +27,7 @@ public interface TheAPI {
 
   @POST("send") Call<JsonObject> sendMoney(@Body JsonObject body);
 
+  @GET("news") Call<JsonObject> getNews();
 
   class Factory {
     private static TheAPI service;
