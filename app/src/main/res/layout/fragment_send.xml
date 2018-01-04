@@ -231,6 +231,7 @@
         <Button
             android:id="@+id/send_button_send"
             android:layout_width="200dp"
+            android:background="@drawable/button_send"
             android:layout_height="75dp"
             android:layout_gravity="center"
             android:layout_weight="0"

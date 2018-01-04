@@ -81,8 +81,6 @@ public class SendFragment extends BaseFragment {
       send_textView_amount.setText("Amount (current balance: " + String.valueOf(SecurityHolder.current_balance_private) + " ZEN)");
     }
 
-    send_editText_to.setText("zcEwNDVP4ruiRo659NtAkExDAftYF88mM73W1CYWR98wkBT2MxdUmkSsFvxMa5jaEYk9d3qYJ1SwXvyhL2Uz9JBSE3AgAra");
-
     send_linlayout_memo.setVisibility(View.GONE);
 
     if (send_editText_to.getText().length() > 50) {

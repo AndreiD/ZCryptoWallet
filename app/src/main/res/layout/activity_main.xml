@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/theToolbar"
-        android:background="@color/app_dark_blue"
+        android:background="@color/zen_orange"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <RelativeLayout

@@ -2,30 +2,30 @@
     <tab
         id="@+id/tab_send"
         icon="@drawable/ic_send_24dp"
-        inActiveColor="#888888"
+        inActiveColor="#E4E4E4"
         activeColor="@color/white"
-        barColorWhenSelected="@color/app_black"
+        barColorWhenSelected="@color/zen_orange"
         title="Send" />
     <tab
         id="@+id/tab_home"
         icon="@drawable/ic_home_24dp"
-        inActiveColor="#888888"
+        inActiveColor="#E4E4E4"
         activeColor="@color/white"
-        barColorWhenSelected="@color/app_black"
+        barColorWhenSelected="@color/zen_orange"
         title="Home" />
     <tab
         id="@+id/tab_receive"
         icon="@drawable/ic_receive_24dp"
-        inActiveColor="#888888"
+        inActiveColor="#E4E4E4"
         activeColor="@color/white"
-        barColorWhenSelected="@color/app_black"
+        barColorWhenSelected="@color/zen_orange"
         title="Receive" />
     <tab
         id="@+id/tab_settings"
         icon="@drawable/ic_settings_24dp"
-        inActiveColor="#888888"
+        inActiveColor="#E4E4E4"
         activeColor="@color/white"
-        barColorWhenSelected="@color/app_black"
+        barColorWhenSelected="@color/zen_orange"
         title="Settings" />
 
 </tabs>
