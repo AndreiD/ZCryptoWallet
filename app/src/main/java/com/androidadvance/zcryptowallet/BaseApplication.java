@@ -28,12 +28,10 @@ public class BaseApplication extends Application {
 
         //generate Device ID if missing
         PreferencesHelper preferencesHelper = new PreferencesHelper(this);
-
-        preferencesHelper.setDeviceID("the_device_id5");
-        //if (preferencesHelper.getDeviceID() == null) {
-        //    String uniqueID = UUID.randomUUID().toString();
-        //    preferencesHelper.setDeviceID(uniqueID);
-        //}
+        if (preferencesHelper.getDeviceID() == null) {
+            String uniqueID = UUID.randomUUID().toString();
+            preferencesHelper.setDeviceID(uniqueID);
+        }
 
 
 
