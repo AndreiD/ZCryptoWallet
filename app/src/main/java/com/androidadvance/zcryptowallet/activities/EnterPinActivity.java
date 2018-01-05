@@ -1,6 +1,7 @@
 package com.androidadvance.zcryptowallet.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseActivity;
+import com.androidadvance.zcryptowallet.BuildConfig;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
@@ -28,6 +30,11 @@ public class EnterPinActivity extends BaseActivity {
     setContentView(R.layout.activity_enter_pin);
     ButterKnife.bind(this);
     mContext = EnterPinActivity.this;
+
+    if(BuildConfig.DEBUG) {
+      editText_pin1.setText("123123");
+      btn_verify_pin.performClick();
+    }
 
   }
 

@@ -13,18 +13,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         >
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="16dp"
+          android:layout_marginTop="8dp"
           android:orientation="vertical"
           >
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_weight="0"
             android:text="From"
             android:textColor="@color/app_grey"
@@ -71,7 +76,9 @@
           android:id="@+id/textView3"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="16dp"
           android:layout_marginTop="8dp"
           android:text="To"
           android:textColor="@color/app_grey"
@@ -82,8 +89,8 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginBottom="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="16dp"
           android:orientation="horizontal"
           >
         <EditText
@@ -92,12 +99,16 @@
             android:layout_height="match_parent"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
+            android:background="@color/transparent"
             android:ems="10"
+            android:gravity="top|left"
+            android:hint="enter or scan destination address "
             android:inputType="textMultiLine"
             android:maxLines="3"
             android:scrollHorizontally="false"
             android:text=""
             android:textColor="@color/black"
+            android:textColorHint="@color/app_grey"
             android:textSize="12sp"
             />
         <ImageButton
@@ -111,12 +122,13 @@
       </LinearLayout>
 
 
-
       <LinearLayout
           android:id="@+id/send_linlayout_memo"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
 
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
           android:orientation="vertical"
           >
 
@@ -124,17 +136,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/LightGrey"
-            />
-
-        <TextView
-            android:id="@+id/textViewx3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Memo (optional)"
-            android:textColor="@color/app_grey"
-            android:textSize="18sp"
             />
 
         <EditText
@@ -145,11 +146,17 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
+            android:background="@color/transparent"
             android:ems="10"
+            android:gravity="top|left"
+            android:hint="memo (optional) "
             android:inputType="textMultiLine"
             android:maxLines="3"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
             android:scrollHorizontally="false"
             android:textColor="@color/black"
+            android:textColorHint="@color/app_grey"
             android:textSize="14sp"
             />
       </LinearLayout>
@@ -165,7 +172,9 @@
           android:id="@+id/send_textView_amount"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="16dp"
           android:layout_marginTop="16dp"
           android:layout_weight="0"
           android:text="Amount "
@@ -175,8 +184,8 @@
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="16dp"
           android:orientation="horizontal"
           >
         <EditText
@@ -185,9 +194,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@color/transparent"
             android:ems="10"
             android:hint="0.00"
             android:inputType="numberDecimal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:textColor="@color/black"
             android:textColorHint="@color/appcolor_grey"
             />
@@ -210,7 +222,10 @@
           android:id="@+id/send_textView_fee"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_margin="8dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginRight="16dp"
+          android:layout_marginTop="8dp"
           android:layout_weight="0"
           android:text="Fee: 0.0001 ZEN"
           android:textColor="@color/app_grey"
@@ -231,10 +246,10 @@
         <Button
             android:id="@+id/send_button_send"
             android:layout_width="200dp"
-            android:background="@drawable/button_send"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0"
+            android:background="@drawable/button_send"
             android:gravity="center"
             android:text="SEND"
             android:textColor="@android:color/white"

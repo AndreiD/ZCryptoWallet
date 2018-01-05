@@ -130,16 +130,16 @@ public class HomeFragment extends BaseFragment {
         set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
         // remove axis
-        YAxis leftAxis = home_line_chart.getAxisLeft();
-        leftAxis.setEnabled(false);
-
         YAxis rightAxis = home_line_chart.getAxisRight();
-        rightAxis.setTextColor(Color.parseColor("#df7b00"));
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setDrawZeroLine(false);
-        rightAxis.setGranularityEnabled(true);
-        rightAxis.setDrawAxisLine(false);
-        rightAxis.setValueFormatter((value, axis) -> "$"+String.valueOf((int) value));
+        rightAxis.setEnabled(false);
+
+        YAxis leftAxis = home_line_chart.getAxisLeft();
+        leftAxis.setTextColor(Color.parseColor("#df7b00"));
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setDrawZeroLine(false);
+        leftAxis.setGranularityEnabled(true);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setValueFormatter((value, axis) -> "$"+String.valueOf((int) value));
 
         XAxis xAxis = home_line_chart.getXAxis();
         xAxis.setEnabled(false);
