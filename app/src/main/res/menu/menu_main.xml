@@ -2,15 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--<item-->
+        <!--android:id="@+id/action_address_book"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:title="@string/address_book"-->
+        <!--android:icon="@drawable/ic_star_24dp"-->
+        <!--app:showAsAction="ifRoom"/>-->
+
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="@string/action_settings"
+        android:icon="@drawable/ic_settings_24dp"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_exit"
         android:orderInCategory="100"
         android:title="@string/action_exit"
+        android:icon="@drawable/ic_exit_24dp"
         app:showAsAction="never"/>
 </menu>

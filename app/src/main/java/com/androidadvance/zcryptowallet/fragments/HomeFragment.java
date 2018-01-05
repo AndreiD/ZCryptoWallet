@@ -1,7 +1,6 @@
 package com.androidadvance.zcryptowallet.fragments;
 
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,14 +16,11 @@ import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -119,7 +115,7 @@ public class HomeFragment extends BaseFragment {
           values.add(new Entry(i, (float) close));
         }
 
-        LineDataSet set1 = new LineDataSet(values, "ZEN - USD in the last 3 months");
+        LineDataSet set1 = new LineDataSet(values, "ZEN - last 3 months");
         set1.setDrawIcons(false);
         set1.setColor(Color.BLACK);
         set1.setLineWidth(2f);
