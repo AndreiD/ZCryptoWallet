@@ -113,7 +113,9 @@ public class NewAccountFragment extends BaseFragment {
     alertDialogBuilder.setView(view);
     alertDialogBuilder.setCancelable(false);
     final AlertDialog dialog = alertDialogBuilder.create();
-    dialog.show();
+    try {
+      dialog.show();
+    }catch (Exception ignored){}
 
     Button btn_dlg_clipboard = view.findViewById(R.id.btn_dlg_clipboard);
     Button btn_dlg_continue = view.findViewById(R.id.btn_dlg_continue);

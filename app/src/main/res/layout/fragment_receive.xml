@@ -44,7 +44,7 @@
       android:layout_marginTop="32dp"
       android:layout_weight="2"
       android:gravity="center"
-      app:srcCompat="@drawable/ic_launcher"
+      app:srcCompat="@mipmap/ic_launcher"
       />
 
   <TextView

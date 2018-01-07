@@ -26,7 +26,7 @@
 
   <Preference
       android:key="credits"
-      android:summary="We deeply thank to all the open source libraries that were used in this project. You can see the complete list in the gradle file on github."
+      android:summary="We thank to all the open source libraries that were used in this project. You can see the complete list in the gradle file on github."
       android:title="Credits"/>
 
   <Preference

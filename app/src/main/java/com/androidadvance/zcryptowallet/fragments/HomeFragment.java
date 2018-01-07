@@ -191,8 +191,10 @@ public class HomeFragment extends BaseFragment {
         SecurityHolder.current_balance_public = Double.valueOf(confirmed_balance_public);
         SecurityHolder.current_balance_private = Double.valueOf(confirmed_balance_private);
 
+        KLog.d("confirmed public:", unconfirmed_balance_public);
+
         //public balances are equals
-        if ((confirmed_balance_public.equals(unconfirmed_balance_public)) || (unconfirmed_balance_public.equals("0"))) {
+        if ((confirmed_balance_public.equals(unconfirmed_balance_public)) || (unconfirmed_balance_public.equals("-0"))) {
           textView_fragmentHome_balance_public.setText(confirmed_balance_public + " ZEN");
         } else {
           //there are unconfirmed balances!
@@ -200,7 +202,7 @@ public class HomeFragment extends BaseFragment {
         }
 
         //private balances are equals
-        if (confirmed_balance_private.equals(unconfirmed_balance_private) || (unconfirmed_balance_private.equals("0"))) {
+        if (confirmed_balance_private.equals(unconfirmed_balance_private) || (unconfirmed_balance_private.equals("-0"))) {
           textView_fragmentHome_balance_private.setText(confirmed_balance_private + " ZEN");
         } else {
           //there are unconfirmed balances!
