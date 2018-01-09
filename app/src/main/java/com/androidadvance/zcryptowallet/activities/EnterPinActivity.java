@@ -43,10 +43,9 @@ public class EnterPinActivity extends BaseActivity {
   }
 
   @OnClick(R.id.btn_verify_pin) public void onClickSaveVerify() {
-    String pin1 = editText_pin1.getText().toString();
 
     //try to decrypt with the entered pin
-    SecurityHolder.pin = pin1;
+    SecurityHolder.pin = editText_pin1.getText().toString();
     if (SecurityHolder.getPIN(EnterPinActivity.this) == null) {
       incorrectCounter = incorrectCounter + 1;
       editText_pin1.setText("");

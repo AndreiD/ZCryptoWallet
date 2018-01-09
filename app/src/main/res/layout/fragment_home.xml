@@ -75,7 +75,7 @@
                 <TextView
                     android:id="@+id/textView_fragmentHome_balance_public"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="4dp"
@@ -111,7 +111,7 @@
                 <TextView
                     android:id="@+id/textView_fragmentHome_balance_private"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="4dp"
