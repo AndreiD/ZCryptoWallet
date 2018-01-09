@@ -12,7 +12,6 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_weight="0"
-      android:background="@drawable/border_round_orange_border"
       android:orientation="horizontal"
       android:padding="4dp"
       >
@@ -20,7 +19,9 @@
         android:id="@+id/radioButtonPrivate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
         android:layout_weight="1"
+        android:background="@drawable/border_round_orange_border"
         android:checked="true"
         android:text="Private Address"
         android:textColor="@color/app_grey"
@@ -29,7 +30,9 @@
         android:id="@+id/radioButtonPublic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:layout_weight="1"
+        android:background="@drawable/border_round_orange_border"
         android:text="Public Address"
         android:textColor="@color/app_grey"
         />

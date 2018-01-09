@@ -14,12 +14,14 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 public final class DialogFactory {
 
-  private static final @ColorInt int DEFAULT_TEXT_COLOR = Color.parseColor("#FFFFFF");
+  private static final @ColorInt int WHITE = Color.parseColor("#FFFFFF");
 
   private static final @ColorInt int ERROR_COLOR = Color.parseColor("#D50000");
   private static final @ColorInt int INFO_COLOR = Color.parseColor("#3F51B5");
   private static final @ColorInt int SUCCESS_COLOR = Color.parseColor("#388E3C");
   private static final @ColorInt int WARNING_COLOR = Color.parseColor("#FFA900");
+  private static final @ColorInt int APP_COLOR = Color.parseColor("#df7b00");
+
 
   public static Dialog createSimpleOkDialog(Context context, String title, String message) {
     AlertDialog.Builder alertDialog =
@@ -52,8 +54,8 @@ public final class DialogFactory {
 
   public static StyleableToast simple_toast(Context context, String message) {
     StyleableToast st = new StyleableToast(context, message, Toast.LENGTH_SHORT);
-    st.setBackgroundColor(DEFAULT_TEXT_COLOR);
-    st.setTextColor(Color.WHITE);
+    st.setBackgroundColor(INFO_COLOR);
+    st.setTextColor(WHITE);
     st.setMaxAlpha();
     return st;
   }
