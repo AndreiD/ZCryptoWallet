@@ -21,6 +21,10 @@ public class DUtils {
     }
   }
 
+  public static String getUniqueID() {
+    return getSHA256(getDeviceInfo());
+  }
+
   private static String capitalize(String s) {
     if (s == null || s.length() == 0) {
       return s;
@@ -43,11 +47,10 @@ public class DUtils {
     }
   }
 
-  public static String getHashForPassword(String email, String raw_password) {
+  private static String getSHA256(String plainText) {
     try {
       MessageDigest md = MessageDigest.getInstance("SHA-256");
-      String text = email + raw_password + "XYZ!159753987123654789";
-      md.update(text.getBytes(Charset.forName("UTF-8")));
+      md.update(plainText.getBytes(Charset.forName("UTF-8")));
       return getHex(md.digest()).toLowerCase();
     } catch (Exception ex) {
       KLog.e(ex);
@@ -76,5 +79,4 @@ public class DUtils {
       sb.append(AB.charAt(rnd.nextInt(AB.length())));
     return sb.toString();
   }
-
 }

@@ -1,8 +1,7 @@
 package com.androidadvance.zcryptowallet.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -10,20 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
-import com.androidadvance.zcryptowallet.activities.MainActivity;
-import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.socks.library.KLog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,10 +50,8 @@ public class NewAccountFragment extends BaseFragment {
     progressDialog = DialogFactory.createProgressDialog(getActivity(), "Creating a new user account... Please wait");
     progressDialog.show();
 
-    PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
-
     JsonObject newUserJsonObject = new JsonObject();
-    newUserJsonObject.add("deviceid", new JsonPrimitive(preferencesHelper.getDeviceID()));
+    newUserJsonObject.add("deviceid", new JsonPrimitive(DUtils.getUniqueID()));
     newUserJsonObject.add("deviceinfo", new JsonPrimitive(DUtils.getDeviceInfo()));
 
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
@@ -71,23 +64,28 @@ public class NewAccountFragment extends BaseFragment {
           String private_address = jsonObjectKeys.get("private_address").getAsString();
           String priv_key_private_address = jsonObjectKeys.get("priv_key_private_address").getAsString();
 
+          SecurityHolder.publicAddress = public_address;
+          SecurityHolder.publicAddressKey = priv_key_public_address;
 
-          SecurityHolder.storePublicAddress(getActivity(), public_address);
-          SecurityHolder.storePrivateAddress(getActivity(), private_address);
+          SecurityHolder.privateAddress = private_address;
+          SecurityHolder.privateAddressKey = priv_key_private_address;
 
-          showPrivateKeysDialog(getActivity(), "ZCryptoWallet Account: Public Address "
-              + public_address
-              + " with private key: "
-              + priv_key_public_address
-              + "  #### and ### Private Address: "
-              + private_address
-              + " with private key: "
-              + priv_key_private_address);
+
+          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+          builder.setMessage("Account Created Successfully. Please restart the application")
+              .setCancelable(false)
+              .setPositiveButton("OK", (dialog, id) -> {
+                dialog.dismiss();
+                getActivity().finish();
+              });
+          AlertDialog alert = builder.create();
+          alert.show();
+
+
           progressDialog.dismiss();
         } else {
           progressDialog.dismiss();
-          DialogFactory.createGenericErrorDialog(getActivity(),
-              "Due to the large amount of users, registration of new accounts is currently closed. Please try again later.").show();
+          DialogFactory.createGenericErrorDialog(getActivity(), "Error creating new account. Please try again later.").show();
         }
       }
 
@@ -103,39 +101,5 @@ public class NewAccountFragment extends BaseFragment {
     if ((progressDialog != null) && progressDialog.isShowing()) {
       progressDialog.dismiss();
     }
-  }
-
-  public static void showPrivateKeysDialog(Context context, String textToCopyToClipboard) {
-
-    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    View view = inflater.inflate(R.layout.dialog_private_keys, null);
-    alertDialogBuilder.setView(view);
-    alertDialogBuilder.setCancelable(false);
-    final AlertDialog dialog = alertDialogBuilder.create();
-    dialog.show();
-
-    Button btn_dlg_clipboard = view.findViewById(R.id.btn_dlg_clipboard);
-    Button btn_dlg_continue = view.findViewById(R.id.btn_dlg_continue);
-    EditText editText_dlg_keys = view.findViewById(R.id.editText_dlg_keys);
-
-    editText_dlg_keys.setText(textToCopyToClipboard);
-
-    btn_dlg_clipboard.setOnClickListener(v -> {
-
-      android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-      android.content.ClipData clip = android.content.ClipData.newPlainText("zcrypto", textToCopyToClipboard);
-      if (clipboard != null) {
-        clipboard.setPrimaryClip(clip);
-        DialogFactory.success_toast(context, "Text has been copied to clipboard.").show();
-      }
-    });
-
-    btn_dlg_continue.setOnClickListener(v -> {
-      Intent i_main = new Intent(context, MainActivity.class);
-      i_main.putExtra("isjustcreated", true);
-      context.startActivity(i_main);
-      dialog.dismiss();
-    });
   }
 }

@@ -26,16 +26,6 @@ public class BaseApplication extends Application {
             KLog.init(false);
         }
 
-        //generate Device ID if missing
-        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
-        if (preferencesHelper.getDeviceID() == null) {
-            String uniqueID = UUID.randomUUID().toString();
-            preferencesHelper.setDeviceID(uniqueID);
-        }
-
-
-
-
         //fonts init
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/AdelleSansLight.ttf")

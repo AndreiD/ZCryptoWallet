@@ -1,7 +1,6 @@
 package com.androidadvance.zcryptowallet.activities;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -12,8 +11,14 @@ import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseActivity;
 import com.androidadvance.zcryptowallet.BuildConfig;
 import com.androidadvance.zcryptowallet.R;
+import com.androidadvance.zcryptowallet.data.remote.TheAPI;
+import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
+import com.google.gson.JsonObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EnterPinActivity extends BaseActivity {
 
@@ -31,11 +36,10 @@ public class EnterPinActivity extends BaseActivity {
     ButterKnife.bind(this);
     mContext = EnterPinActivity.this;
 
-    if(BuildConfig.DEBUG) {
+    if (BuildConfig.DEBUG) { //TODO: move it to local.properties
       editText_pin1.setText("123123");
       btn_verify_pin.performClick();
     }
-
   }
 
   @OnClick(R.id.btn_verify_pin) public void onClickSaveVerify() {
@@ -60,6 +64,32 @@ public class EnterPinActivity extends BaseActivity {
       return;
     }
 
-    startActivity(new Intent(mContext, MainActivity.class));
+    TheAPI theAPI = TheAPI.Factory.getIstance(mContext);
+    theAPI.getWalletInfo(DUtils.getUniqueID()).enqueue(new Callback<JsonObject>() {
+      @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+        if (response.code() > 299) {
+          DialogFactory.error_toast(mContext, "Failed to get balances for your account.").show();
+          finish();
+        }
+
+        JsonObject jsonObject = response.body();
+        if (!jsonObject.has("privateaddresskey")) {
+          DialogFactory.error_toast(mContext, "Failed to get balances for your account. Device ID was not found").show();
+          finish();
+        }
+
+        SecurityHolder.publicAddress = jsonObject.get("publicaddress").getAsString();
+        SecurityHolder.privateAddress = jsonObject.get("privateaddress").getAsString();
+        SecurityHolder.publicAddressKey = jsonObject.get("publicaddresskey").getAsString();
+        SecurityHolder.privateAddressKey = jsonObject.get("privateaddresskey").getAsString();
+
+        startActivity(new Intent(mContext, MainActivity.class));
+      }
+
+      @Override public void onFailure(Call<JsonObject> call, Throwable t) {
+        DialogFactory.error_toast(mContext, "Failed to get balances for your account.").show();
+        finish();
+      }
+    });
   }
 }

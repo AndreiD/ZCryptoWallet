@@ -13,6 +13,11 @@
       android:title="Reset Application"/>
 
   <Preference
+      android:key="@string/export_wallet"
+      android:summary="display the public / private keys"
+      android:title="Export Wallet"/>
+
+  <Preference
       android:key="@string/send_feedback"
       android:summary="We appreciate your feedback. What did you like or dislike ?"
       android:title="Send Feedback"/>

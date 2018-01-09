@@ -13,6 +13,7 @@ import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
 import com.androidadvance.zcryptowallet.data.remote.ExchangeRatesAPI;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
+import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.github.mikephil.charting.charts.LineChart;
@@ -108,22 +109,27 @@ public class HomeFragment extends BaseFragment {
         JsonObject jsonObject = response.body();
         JsonArray jArrayData = jsonObject.get("Data").getAsJsonArray();
         for(int i=0; i<jArrayData.size();i++){
-          JsonObject dataJsonObject = jArrayData.get(i).getAsJsonObject();
-          //long time = dataJsonObject.get("time").getAsLong();
-          double close = dataJsonObject.get("close").getAsDouble();
-
-          values.add(new Entry(i, (float) close));
+          try {
+            JsonObject dataJsonObject = jArrayData.get(i).getAsJsonObject();
+            //long time = dataJsonObject.get("time").getAsLong();
+            double close = dataJsonObject.get("close").getAsDouble();
+            values.add(new Entry(i, (float) close));
+          }catch (Exception ignored){}
         }
 
-        LineDataSet set1 = new LineDataSet(values, "ZEN - last 3 months");
-        set1.setDrawIcons(false);
-        set1.setColor(Color.BLACK);
-        set1.setLineWidth(2f);
-        set1.setFormLineWidth(1f);
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
-        set1.setDrawCircleHole(false);
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        if(values.size() == 0){
+          return;
+        }
+
+        LineDataSet zenToUSDSet = new LineDataSet(values, "ZEN - last 3 months");
+        zenToUSDSet.setDrawIcons(false);
+        zenToUSDSet.setColor(Color.BLACK);
+        zenToUSDSet.setLineWidth(2f);
+        zenToUSDSet.setFormLineWidth(1f);
+        zenToUSDSet.setDrawCircles(false);
+        zenToUSDSet.setDrawValues(false);
+        zenToUSDSet.setDrawCircleHole(false);
+        zenToUSDSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
         // remove axis
         YAxis rightAxis = home_line_chart.getAxisRight();
@@ -142,8 +148,7 @@ public class HomeFragment extends BaseFragment {
 
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1); // add the datasets
-        // create a data object with the datasets
+        dataSets.add(zenToUSDSet);
         LineData data = new LineData(dataSets);
 
         // set data
@@ -166,7 +171,7 @@ public class HomeFragment extends BaseFragment {
 
     PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
-    theAPI.getBalance(preferencesHelper.getDeviceID()).enqueue(new Callback<JsonObject>() {
+    theAPI.getBalance(DUtils.getUniqueID()).enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
         if (response.code() > 299) {
@@ -192,7 +197,7 @@ public class HomeFragment extends BaseFragment {
         SecurityHolder.current_balance_private = Double.valueOf(confirmed_balance_private);
 
         //public balances are equals
-        if ((confirmed_balance_public.equals(unconfirmed_balance_public)) || (unconfirmed_balance_public.equals("0"))) {
+        if ((confirmed_balance_public.equals(unconfirmed_balance_public)) || (Double.valueOf(unconfirmed_balance_public) == 0)) {
           textView_fragmentHome_balance_public.setText(confirmed_balance_public + " ZEN");
         } else {
           //there are unconfirmed balances!
@@ -200,7 +205,7 @@ public class HomeFragment extends BaseFragment {
         }
 
         //private balances are equals
-        if (confirmed_balance_private.equals(unconfirmed_balance_private) || (unconfirmed_balance_private.equals("0"))) {
+        if (confirmed_balance_private.equals(unconfirmed_balance_private) || (Double.valueOf(unconfirmed_balance_private) == 0)) {
           textView_fragmentHome_balance_private.setText(confirmed_balance_private + " ZEN");
         } else {
           //there are unconfirmed balances!

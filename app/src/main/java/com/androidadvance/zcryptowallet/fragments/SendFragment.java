@@ -26,6 +26,7 @@ import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
 import com.androidadvance.zcryptowallet.data.remote.ExchangeRatesAPI;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.qrscanner.QRScannerActivity;
+import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
@@ -200,16 +201,15 @@ public class SendFragment extends BaseFragment {
     progressDialog = DialogFactory.createProgressDialog(getActivity(), "Sending...");
     progressDialog.show();
 
-    PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
 
     JsonObject sendJsonObject = new JsonObject();
 
-    sendJsonObject.add("fromuserdevice", new JsonPrimitive(preferencesHelper.getDeviceID()));
+    sendJsonObject.add("fromuserdevice", new JsonPrimitive(DUtils.getUniqueID()));
     if (typeAddress.equals("public")) {
-      sendJsonObject.add("fromaddress", new JsonPrimitive(SecurityHolder.getPublicAddress(getActivity())));
+      sendJsonObject.add("fromaddress", new JsonPrimitive(SecurityHolder.publicAddress));
     } else {
-      sendJsonObject.add("fromaddress", new JsonPrimitive(SecurityHolder.getPrivateAddress(getActivity())));
+      sendJsonObject.add("fromaddress", new JsonPrimitive(SecurityHolder.privateAddress));
     }
     sendJsonObject.add("toaddress", new JsonPrimitive(destinationAddress));
     if (send_editText_to.getText().length() > 50) {
@@ -231,7 +231,7 @@ public class SendFragment extends BaseFragment {
           return;
         }
 
-        if (((MainActivity) getActivity()) != null) {
+        if ((getActivity()) != null) {
           ((MainActivity) getActivity()).navigateToHome();
         }
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();

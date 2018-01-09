@@ -51,7 +51,7 @@ public class ReceiveFragment extends BaseFragment {
 
   @OnCheckedChanged(R.id.radioButtonPrivate) public void onCheckedChangedPrivate() {
     if (radioButtonPrivate.isChecked()) {
-      String address = SecurityHolder.getPrivateAddress(getActivity()).replaceAll("\"", "");
+      String address = SecurityHolder.privateAddress;
       textView_receive_zenaddress.setText(address);
       Picasso.with(getActivity())
           .load("http://chart.apis.google.com/chart?cht=qr&chs=500x500&chl=" + address + "&chld=H|0")
@@ -61,7 +61,7 @@ public class ReceiveFragment extends BaseFragment {
 
   @OnCheckedChanged(R.id.radioButtonPublic) public void onCheckedChangedPublic() {
     if (radioButtonPublic.isChecked()) {
-      String address = SecurityHolder.getPublicAddress(getActivity()).replaceAll("\"", "");
+      String address = SecurityHolder.publicAddress;
       textView_receive_zenaddress.setText(address);
       Picasso.with(getActivity())
           .load("http://chart.apis.google.com/chart?cht=qr&chs=500x500&chl=" + address + "&chld=H|0")
