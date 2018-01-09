@@ -2,6 +2,12 @@
 
 Open source <a href="https://zensystem.io/" taget="_blank">ZENCash</a> wallet.
 
+### TODO:
+
+- App news system, with app version number
+- Address Book (50% done)
+- Messaging
+
 #### Fell free to fork the project and use it as you consider.
 
 ### :notes: License 2017 - present 

@@ -44,7 +44,6 @@ android {
     abortOnError false
   }
 
-  //needed if for espresso
   configurations.all {
     resolutionStrategy {
       force 'com.android.support:support-annotations:23.0.1'
