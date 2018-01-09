@@ -31,7 +31,7 @@
   </style>
 
   <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
-    <item name="colorAccent">@color/white</item>
+    <item name="colorAccent">@color/zen_orange</item>
     <item name="android:windowTitleStyle">@style/Title</item>
     <item name="android:textColorPrimary">@color/app_text_label</item>
     <item name="android:background">@color/app_window_bglight_color</item>
