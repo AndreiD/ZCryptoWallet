@@ -169,7 +169,6 @@ public class HomeFragment extends BaseFragment {
 
   private void updateBalances() {
 
-    PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
     theAPI.getBalance(DUtils.getUniqueID()).enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
