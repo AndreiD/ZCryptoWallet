@@ -16,6 +16,7 @@ import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
+import com.crashlytics.android.Crashlytics;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -100,7 +101,7 @@ public class HomeFragment extends BaseFragment {
     ExchangeRatesAPI exchangeRatesAPI = ExchangeRatesAPI.Factory.getIstance(getActivity());
     exchangeRatesAPI.getHistoryData().enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-        if(response.code() > 299){
+        if (response.code() > 299) {
           KLog.e("faild to get historical data for the chart");
           home_line_chart.setVisibility(View.GONE);
           return;
@@ -108,16 +109,17 @@ public class HomeFragment extends BaseFragment {
 
         JsonObject jsonObject = response.body();
         JsonArray jArrayData = jsonObject.get("Data").getAsJsonArray();
-        for(int i=0; i<jArrayData.size();i++){
+        for (int i = 0; i < jArrayData.size(); i++) {
           try {
             JsonObject dataJsonObject = jArrayData.get(i).getAsJsonObject();
             //long time = dataJsonObject.get("time").getAsLong();
             double close = dataJsonObject.get("close").getAsDouble();
             values.add(new Entry(i, (float) close));
-          }catch (Exception ignored){}
+          } catch (Exception ignored) {
+          }
         }
 
-        if(values.size() == 0){
+        if (values.size() == 0) {
           return;
         }
 
@@ -141,11 +143,10 @@ public class HomeFragment extends BaseFragment {
         leftAxis.setDrawZeroLine(false);
         leftAxis.setGranularityEnabled(true);
         leftAxis.setDrawAxisLine(false);
-        leftAxis.setValueFormatter((value, axis) -> "$"+String.valueOf((int) value));
+        leftAxis.setValueFormatter((value, axis) -> "$" + String.valueOf((int) value));
 
         XAxis xAxis = home_line_chart.getXAxis();
         xAxis.setEnabled(false);
-
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(zenToUSDSet);
@@ -154,7 +155,6 @@ public class HomeFragment extends BaseFragment {
         // set data
         home_line_chart.setData(data);
         home_line_chart.invalidate();
-
       }
 
       @Override public void onFailure(Call<JsonObject> call, Throwable t) {
@@ -162,9 +162,6 @@ public class HomeFragment extends BaseFragment {
         home_line_chart.setVisibility(View.GONE);
       }
     });
-
-
-
   }
 
   private void updateBalances() {
@@ -176,6 +173,7 @@ public class HomeFragment extends BaseFragment {
         if (response.code() > 299) {
           textView_fragmentHome_status.setText("Failed to get balances for your account.");
           textView_fragmentHome_status.setTextColor(getResources().getColor(R.color.material_red));
+          Crashlytics.logException(new Throwable("Failed to get balances for your account: " + DUtils.getShortID()));
           return;
         }
 
@@ -219,6 +217,7 @@ public class HomeFragment extends BaseFragment {
         DialogFactory.error_toast(getActivity(), "We couldn't get the balance for this account.").show();
         textView_fragmentHome_status.setText("Failed to get balances for your account.");
         textView_fragmentHome_status.setTextColor(getResources().getColor(R.color.material_red));
+        Crashlytics.logException(t);
       }
     });
   }

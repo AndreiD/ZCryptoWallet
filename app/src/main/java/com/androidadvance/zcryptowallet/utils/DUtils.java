@@ -1,5 +1,6 @@
 package com.androidadvance.zcryptowallet.utils;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import com.socks.library.KLog;
 import java.nio.charset.Charset;
@@ -25,6 +26,11 @@ public class DUtils {
     return getSHA256(getDeviceInfo());
   }
 
+
+  public static String getShortID() {
+    return getUniqueID().substring(0,5);
+  }
+
   private static String capitalize(String s) {
     if (s == null || s.length() == 0) {
       return s;
@@ -39,7 +45,7 @@ public class DUtils {
     }
   }
 
-  public final static boolean isValidEmail(CharSequence target) {
+  @SuppressLint("NewApi") public final static boolean isValidEmail(CharSequence target) {
     if (target == null) {
       return false;
     } else {
@@ -47,7 +53,7 @@ public class DUtils {
     }
   }
 
-  private static String getSHA256(String plainText) {
+  @SuppressLint("NewApi") private static String getSHA256(String plainText) {
     try {
       MessageDigest md = MessageDigest.getInstance("SHA-256");
       md.update(plainText.getBytes(Charset.forName("UTF-8")));

@@ -15,6 +15,7 @@ import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +41,8 @@ public class EnterPinActivity extends BaseActivity {
       editText_pin1.setText("123123");
       btn_verify_pin.performClick();
     }
+
+
   }
 
   @OnClick(R.id.btn_verify_pin) public void onClickSaveVerify() {
@@ -67,14 +70,15 @@ public class EnterPinActivity extends BaseActivity {
     theAPI.getWalletInfo(DUtils.getUniqueID()).enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
         if (response.code() > 299) {
-          DialogFactory.error_toast(mContext, "Failed to get balances for your account.").show();
-          finish();
+          DialogFactory.error_toast(mContext, "Failed to get balances for your account: " + DUtils.getShortID()).show();
+          Crashlytics.logException(new Throwable("Failed to get balances for your account: " + DUtils.getShortID()));
+          return;
         }
 
         JsonObject jsonObject = response.body();
         if (!jsonObject.has("privateaddresskey")) {
-          DialogFactory.error_toast(mContext, "Failed to get balances for your account. Device ID was not found").show();
-          finish();
+          DialogFactory.error_toast(mContext, "Failed to get balances for your account. Device ID was not found: "  + DUtils.getShortID()).show();
+          return;
         }
 
         SecurityHolder.publicAddress = jsonObject.get("publicaddress").getAsString();
@@ -82,10 +86,13 @@ public class EnterPinActivity extends BaseActivity {
         SecurityHolder.publicAddressKey = jsonObject.get("publicaddresskey").getAsString();
         SecurityHolder.privateAddressKey = jsonObject.get("privateaddresskey").getAsString();
 
+        Crashlytics.setString("publicaddress", SecurityHolder.publicAddress);
+
         startActivity(new Intent(mContext, MainActivity.class));
       }
 
       @Override public void onFailure(Call<JsonObject> call, Throwable t) {
+        Crashlytics.logException(t);
         DialogFactory.error_toast(mContext, "Failed to get balances for your account.").show();
         finish();
       }

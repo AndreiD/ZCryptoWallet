@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
+import com.androidadvance.zcryptowallet.utils.DUtils;
+import com.crashlytics.android.Crashlytics;
 import com.socks.library.KLog;
 
 import java.util.UUID;
@@ -33,6 +35,7 @@ public class BaseApplication extends Application {
                 .build()
         );
 
+        Crashlytics.setUserIdentifier(DUtils.getShortID());
     }
 
 
