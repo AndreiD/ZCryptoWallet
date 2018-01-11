@@ -178,10 +178,10 @@ public class HomeFragment extends BaseFragment {
         }
 
         JsonObject balanceJsonObject = response.body();
-        String confirmed_balance_public = balanceJsonObject.get("confirmed_balance_public").getAsString();
-        String confirmed_balance_private = balanceJsonObject.get("confirmed_balance_private").getAsString();
-        String unconfirmed_balance_public = balanceJsonObject.get("unconfirmed_balance_public").getAsString();
-        String unconfirmed_balance_private = balanceJsonObject.get("unconfirmed_balance_private").getAsString();
+        String confirmed_balance_public = balanceJsonObject.get("confirmed_balance_public").getAsString().replaceAll(",",".");
+        String confirmed_balance_private = balanceJsonObject.get("confirmed_balance_private").getAsString().replaceAll(",",".");
+        String unconfirmed_balance_public = balanceJsonObject.get("unconfirmed_balance_public").getAsString().replaceAll(",",".");
+        String unconfirmed_balance_private = balanceJsonObject.get("unconfirmed_balance_private").getAsString().replaceAll(",",".");
 
         confirmed_balance_public = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_public));
         confirmed_balance_private = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_private));
