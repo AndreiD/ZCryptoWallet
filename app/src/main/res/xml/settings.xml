@@ -36,7 +36,7 @@
 
   <Preference
       android:key="credits2"
-      android:summary="For exchange rate to USD, cryptocompare.com API is used. "
+      android:summary="For exchange rate to USD, data from cryptocompare.com is used. "
       android:title="Info"/>
 
 

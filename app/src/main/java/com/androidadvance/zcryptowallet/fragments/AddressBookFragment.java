@@ -16,6 +16,7 @@ import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.qrscanner.QRScannerActivity;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
+import com.socks.library.KLog;
 
 public class AddressBookFragment extends BaseFragment {
 
@@ -52,17 +53,29 @@ public class AddressBookFragment extends BaseFragment {
 
   @OnClick(R.id.send_imageButton_save_addressbook) public void onClickSave() {
     if( (editText_add_new_contact_name.getText().toString().isEmpty()) || (edittext_add_new_contact_address.getText().toString().length() < 25)){
-      DialogFactory.warning_toast(getActivity(),"Invalid contact name or address.").show();
+      DialogFactory.warning_toast(getActivity(),"Please enter contact name and it's ZEN address.").show();
       return;
     }
+
+
 
   }
 
   @Override public void onResume() {
     super.onResume();
-
     if (!SecurityHolder.lastScanAddress.isEmpty()) {
       edittext_add_new_contact_address.setText(SecurityHolder.lastScanAddress);
     }
+
+    populateContacts();
+
+  }
+
+  private void populateContacts() {
+
+    SecurityHolder.storeContacts(getActivity(),"This are the contacts");
+
+    KLog.d(" AND GET THEM : " + SecurityHolder.getContacts(getActivity()));
+
   }
 }
