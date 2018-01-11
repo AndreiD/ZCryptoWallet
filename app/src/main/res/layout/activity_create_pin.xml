@@ -4,73 +4,76 @@
     android:layout_height="match_parent">
 
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="false"
+      android:layout_marginTop="16dp"
+      android:orientation="vertical"
+      >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Please Create a New Pin Code"
+        android:textColor="@color/blue_dark"
+        android:textSize="16sp"
+        />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="false"
-        android:layout_marginTop="96dp"
-        android:orientation="vertical"
-        >
+        android:gravity="center"
+        android:text="Enter New PIN"
+        />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:text="Please Create a New Pin Code"
-            android:textColor="@color/blue_dark"
-            android:textSize="16sp"
-            />
+    <EditText
+        android:id="@+id/editText_pin1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/pin"
+        android:inputType="numberPassword"
+        android:textColor="@color/primary_text"
+        android:textSize="30sp"
+        />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-            <EditText
-                android:id="@+id/editText_pin1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="64dp"
-                android:hint="@string/pin"
-                android:inputType="numberPassword"
-                android:textColor="@color/primary_text"
-                android:textSize="30sp"
-                />
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/text_input_layout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-            <EditText
-                android:id="@+id/editText_pin2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="64dp"
-                android:hint="@string/repeat_pin"
-                android:inputType="numberPassword"
-                android:textColor="@color/primary_text"
-                android:textSize="30sp"
-                />
-        </android.support.design.widget.TextInputLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Repeat PIN"
+        />
+    <EditText
+        android:id="@+id/editText_pin2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/repeat_pin"
+        android:inputType="numberPassword"
+        android:textColor="@color/primary_text"
+        android:textSize="30sp"
+        />
 
-        <Button
-            android:id="@+id/btn_save_new_pin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="64dp"
-            android:layout_marginRight="64dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/done"
-            android:textColor="@color/white"
-            />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_save_new_pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/done"
+        android:textColor="@color/white"
+        />
+
+  </LinearLayout>
 
 </RelativeLayout>
