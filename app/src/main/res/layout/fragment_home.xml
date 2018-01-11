@@ -68,7 +68,7 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="Public Addres Balance"
+                    android:text="Public Address Balance"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     />

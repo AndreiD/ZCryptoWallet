@@ -20,9 +20,12 @@ public class SecurityHolder {
 
   //Using a rooted phone is not recommended :)
   public static void storePIN(Context ctx, String pin) {
+    if(pin.isEmpty()){
+      return;
+    }
     try {
       PreferencesHelper preferencesHelper = new PreferencesHelper(ctx);
-      AesCbcWithIntegrity.SecretKeys key = AesCbcWithIntegrity.generateKeyFromPassword(SecurityHolder.pin, DUtils.getUniqueID());
+      AesCbcWithIntegrity.SecretKeys key = AesCbcWithIntegrity.generateKeyFromPassword(pin, DUtils.getUniqueID());
       AesCbcWithIntegrity.CipherTextIvMac cipherTextIvMac = AesCbcWithIntegrity.encrypt(pin, key, "UTF-8");
       preferencesHelper.setPIN(cipherTextIvMac.toString());
     } catch (GeneralSecurityException | UnsupportedEncodingException e) {
@@ -45,6 +48,9 @@ public class SecurityHolder {
 
 
   public static void storeContacts(Context ctx, String contacts) {
+    if(contacts.isEmpty()){
+      return;
+    }
     try {
       PreferencesHelper preferencesHelper = new PreferencesHelper(ctx);
       AesCbcWithIntegrity.SecretKeys key = AesCbcWithIntegrity.generateKeyFromPassword(SecurityHolder.pin, DUtils.getUniqueID());

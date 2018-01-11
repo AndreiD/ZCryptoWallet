@@ -47,6 +47,11 @@ public class EnterPinActivity extends BaseActivity {
 
   @OnClick(R.id.btn_verify_pin) public void onClickSaveVerify() {
 
+    if(editText_pin1.getText().toString().length() < 3){
+      DialogFactory.error_toast(EnterPinActivity.this, "Pin should be at least 4 numbers").show();
+      return;
+    }
+
     //try to decrypt with the entered pin
     SecurityHolder.pin = editText_pin1.getText().toString();
     if (SecurityHolder.getPIN(EnterPinActivity.this) == null) {

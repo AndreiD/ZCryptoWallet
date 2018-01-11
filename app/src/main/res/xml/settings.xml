@@ -5,6 +5,7 @@
   <SwitchPreference
       android:defaultValue="false"
       android:key="prefs_notifications"
+      android:summary="Get notified when you receive ZEN (under development, not working now)"
       android:title="Enable Notifications"/>
 
   <Preference
@@ -43,7 +44,7 @@
 
   <Preference
       android:key="copyright"
-      android:summary="Android Advance © 2017. All rights reserved."
+      android:summary="Android Advance © 2018. All rights reserved."
       android:title="Copyright"/>
 
 
