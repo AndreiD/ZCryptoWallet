@@ -1,11 +1,9 @@
 package com.androidadvance.zcryptowallet.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -15,13 +13,7 @@ import android.widget.ImageView;
 import com.androidadvance.zcryptowallet.BaseActivity;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
-import com.androidadvance.zcryptowallet.data.remote.TheAPI;
-import com.androidadvance.zcryptowallet.utils.DialogFactory;
-import com.google.gson.JsonObject;
 import com.socks.library.KLog;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SplashActivity extends BaseActivity {
 
@@ -129,11 +121,11 @@ public class SplashActivity extends BaseActivity {
 
     PreferencesHelper preferencesHelper = new PreferencesHelper(SplashActivity.this);
 
-    if (preferencesHelper.getPIN() == null) {
-      KLog.d("we didn't detect any pin present");
+    if (preferencesHelper.getIsNewAccount()) {
+      KLog.d("this is a new account");
       startActivity(new Intent(this, NewPinActivity.class));
     } else {
-      KLog.d("a pin is already present. show enter pin activity");
+      KLog.d("an account is already setup on this device");
       startActivity(new Intent(this, EnterPinActivity.class));
     }
   }

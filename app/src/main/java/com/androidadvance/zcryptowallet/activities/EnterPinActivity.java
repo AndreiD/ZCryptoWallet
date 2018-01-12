@@ -64,7 +64,6 @@ public class EnterPinActivity extends BaseActivity {
 
     //Check the pin
     SecurityHolder.pin = editText_pin1.getText().toString();
-    SecurityHolder.storePIN(mContext, SecurityHolder.pin);
 
     TheAPI theAPI = TheAPI.Factory.getIstance(mContext);
     theAPI.getWalletInfo(DUtils.getUniqueID(), SecurityHolder.pin).enqueue(new Callback<JsonObject>() {
@@ -146,7 +145,6 @@ public class EnterPinActivity extends BaseActivity {
           }
           DialogFactory.success_toast(mContext,"PIN Successfully Updated.").show();
           dialog.dismiss();
-          SecurityHolder.storePIN(mContext, pin);
 
         }
 

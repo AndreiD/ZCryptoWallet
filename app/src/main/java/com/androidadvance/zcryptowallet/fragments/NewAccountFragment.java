@@ -13,6 +13,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
+import com.androidadvance.zcryptowallet.activities.SplashActivity;
+import com.androidadvance.zcryptowallet.data.local.PreferencesHelper;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
@@ -74,6 +76,9 @@ public class NewAccountFragment extends BaseFragment {
           SecurityHolder.privateAddress = private_address;
           SecurityHolder.privateAddressKey = priv_key_private_address;
 
+          //setup complete. this is an old account. store it in preferences.
+          PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
+          preferencesHelper.setIsNewAccount(false);
 
           AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
           builder.setMessage("Account Created Successfully. Please restart the application")
@@ -85,7 +90,6 @@ public class NewAccountFragment extends BaseFragment {
           AlertDialog alert = builder.create();
           alert.show();
 
-
           progressDialog.dismiss();
         } else {
           progressDialog.dismiss();
@@ -93,19 +97,33 @@ public class NewAccountFragment extends BaseFragment {
           try {
             JSONObject jObjError = new JSONObject(response.errorBody().string());
 
-            DialogFactory.error_toast(getActivity(), jObjError.getString("error") ).show();
+            if (jObjError.getString("error").contains("Seems you already have an account")) {
+              SecurityHolder.pin = String.valueOf(new Random().nextInt(999999));
+              PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
+              preferencesHelper.setIsNewAccount(false); //force the show enter pin screen123
 
-            if(jObjError.getString("error").contains("Seems you already have an account")){
-              SecurityHolder.storePIN(getContext(),String.valueOf(new Random().nextInt(99999))); //store a fake pin, forcing the user to recover it
-              getActivity().finish();
+
+              AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogErrorStyle);
+              builder.setMessage("Application will restart now. Because there's already an account tied to this device please use the forgot PIN function in order to restore your account.")
+                  .setCancelable(false)
+                  .setPositiveButton("OK", (dialog, id) -> {
+                    dialog.dismiss();
+                    getActivity().finish();
+                  });
+              AlertDialog alert = builder.create();
+              alert.show();
+
+
               return;
+            } else {
+              DialogFactory.error_toast(getActivity(), jObjError.getString("error")).show();
             }
 
             return;
           } catch (Exception e) {
             KLog.e(e);
           }
-          DialogFactory.createGenericErrorDialog(getActivity(), "Error creating new account. Please try again later: " ).show();
+          DialogFactory.createGenericErrorDialog(getActivity(), "Error creating new account. Please try again later: ").show();
         }
       }
 

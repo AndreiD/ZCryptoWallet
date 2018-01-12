@@ -135,7 +135,7 @@ public class SettingsActivity extends AppCompatActivity {
               }
               DialogFactory.success_toast(getActivity(),"PIN Successfully Updated.").show();
               dialog.dismiss();
-              SecurityHolder.storePIN(getActivity(), pin);
+              SecurityHolder.pin = pin;
             }
 
             @Override public void onFailure(Call<JsonObject> call, Throwable t) {

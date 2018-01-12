@@ -8,7 +8,7 @@ public class PreferencesHelper {
   private static SharedPreferences mPref;
 
   public static final String PREF_FILE_NAME = "myapp_shared_prefs";
-  private static final String KEY_PIN = "KEY_PIN";
+  private static final String KEY_NEW_ACCOUNT = "NEW_ACCOUNT";
   private static final String KEY_CONTACTS = "KEY_CONTACTS";
 
   public PreferencesHelper(Context context) {
@@ -19,13 +19,13 @@ public class PreferencesHelper {
     mPref.edit().clear().apply();
   }
 
-  //encrypted
-  public String getPIN() {
-    return mPref.getString(KEY_PIN, null);
+
+  public boolean getIsNewAccount() {
+    return mPref.getBoolean(KEY_NEW_ACCOUNT, true);
   }
 
-  public void setPIN(String pin) {
-    mPref.edit().putString(KEY_PIN, pin).commit();
+  public void setIsNewAccount(boolean isNewAccount) {
+    mPref.edit().putBoolean(KEY_NEW_ACCOUNT, isNewAccount).commit();
   }
 
 

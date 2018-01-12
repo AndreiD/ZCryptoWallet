@@ -41,9 +41,7 @@ public class NewPinActivity extends BaseActivity {
       return;
     }
 
-    SecurityHolder.pin = pin1;
-
-    SecurityHolder.storePIN(this, pin1);
+    SecurityHolder.pin = pin1; //saves it temporarily in memory
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().replace(android.R.id.content, NewAccountFragment.newInstance()).addToBackStack(null).commit();
