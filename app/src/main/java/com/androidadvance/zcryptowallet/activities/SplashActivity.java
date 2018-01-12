@@ -95,33 +95,34 @@ public class SplashActivity extends BaseActivity {
   private void checkNews() {
 
     //TODO: add should update related to the app version number...
+    check_wallet_present();
 
-    TheAPI theAPI = TheAPI.Factory.getIstance(SplashActivity.this);
-    theAPI.getNews().enqueue(new Callback<JsonObject>() {
-      @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-        if (response.code() > 299) {
-          KLog.e("an error occurred while trying to get the news");
-          check_wallet_present();
-          return;
-        }
-        JsonObject jsonObject = response.body();
-        String news = jsonObject.get("news").getAsString();
-
-        if ((news != null) && (!news.isEmpty())) {
-
-          AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
-          builder.setTitle("News");
-          builder.setCancelable(false);
-          builder.setMessage(news).setCancelable(false).setPositiveButton("OK", (dialog, id) -> check_wallet_present());
-          AlertDialog alert = builder.create();
-          alert.show();
-        }
-      }
-
-      @Override public void onFailure(Call<JsonObject> call, Throwable t) {
-        check_wallet_present();
-      }
-    });
+    //TheAPI theAPI = TheAPI.Factory.getIstance(SplashActivity.this);
+    //theAPI.getNews().enqueue(new Callback<JsonObject>() {
+    //  @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+    //    if (response.code() > 299) {
+    //      KLog.e("an error occurred while trying to get the news");
+    //      check_wallet_present();
+    //      return;
+    //    }
+    //    JsonObject jsonObject = response.body();
+    //    String news = jsonObject.get("news").getAsString();
+    //
+    //    if ((news != null) && (!news.isEmpty())) {
+    //
+    //      AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
+    //      builder.setTitle("News");
+    //      builder.setCancelable(false);
+    //      builder.setMessage(news).setCancelable(false).setPositiveButton("OK", (dialog, id) -> check_wallet_present());
+    //      AlertDialog alert = builder.create();
+    //      alert.show();
+    //    }
+    //  }
+    //
+    //  @Override public void onFailure(Call<JsonObject> call, Throwable t) {
+    //    check_wallet_present();
+    //  }
+    //});
   }
 
   private void check_wallet_present() {

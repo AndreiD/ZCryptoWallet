@@ -23,11 +23,13 @@ public interface TheAPI {
 
   @GET("getBalanceForAddress/{deviceId}") Call<JsonObject> getBalance(@Path("deviceId") String deviceId);
 
-  @GET("getbydeviceid/{deviceId}") Call<JsonObject> getWalletInfo(@Path("deviceId") String deviceId);
+  @GET("getbydeviceid/{deviceId}/{pin}") Call<JsonObject> getWalletInfo(@Path("deviceId") String deviceId, @Path("pin") String pin);
 
   @GET("check_opid/{opid}") Call<JsonObject> checkOpid(@Path("opid") String opid);
 
   @POST("createnewuser") Call<JsonObject> createnewuser(@Body JsonObject body);
+
+  @POST("updateuserpin") Call<JsonObject> updateUserPin(@Body JsonObject body);
 
   @POST("send") Call<JsonObject> sendMoney(@Body JsonObject body);
 

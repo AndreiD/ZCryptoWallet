@@ -19,6 +19,8 @@ import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.socks.library.KLog;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +55,7 @@ public class NewAccountFragment extends BaseFragment {
     JsonObject newUserJsonObject = new JsonObject();
     newUserJsonObject.add("deviceid", new JsonPrimitive(DUtils.getUniqueID()));
     newUserJsonObject.add("deviceinfo", new JsonPrimitive(DUtils.getDeviceInfo()));
+    newUserJsonObject.add("pin", new JsonPrimitive(SecurityHolder.pin));
 
     TheAPI theAPI = TheAPI.Factory.getIstance(getActivity());
     theAPI.createnewuser(newUserJsonObject).enqueue(new Callback<JsonObject>() {
@@ -85,7 +88,15 @@ public class NewAccountFragment extends BaseFragment {
           progressDialog.dismiss();
         } else {
           progressDialog.dismiss();
-          DialogFactory.createGenericErrorDialog(getActivity(), "Error creating new account. Please try again later.").show();
+
+          try {
+            JSONObject jObjError = new JSONObject(response.errorBody().string());
+            DialogFactory.createGenericErrorDialog(getActivity(), jObjError.getString("error") ).show();
+            return;
+          } catch (Exception e) {
+            KLog.e(e);
+          }
+          DialogFactory.createGenericErrorDialog(getActivity(), "Error creating new account. Please try again later: " ).show();
         }
       }
 
