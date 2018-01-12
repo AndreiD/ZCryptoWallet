@@ -21,6 +21,8 @@ import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.socks.library.KLog;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,10 +64,12 @@ public class EnterPinActivity extends BaseActivity {
 
     //Check the pin
     SecurityHolder.pin = editText_pin1.getText().toString();
+    SecurityHolder.storePIN(mContext, SecurityHolder.pin);
 
     TheAPI theAPI = TheAPI.Factory.getIstance(mContext);
     theAPI.getWalletInfo(DUtils.getUniqueID(), SecurityHolder.pin).enqueue(new Callback<JsonObject>() {
       @Override public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
         if (response.code() > 299) {
           DialogFactory.error_toast(mContext, "Invalid PIN").show();
           incorrectCounter = incorrectCounter + 1;

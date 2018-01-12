@@ -20,6 +20,7 @@ import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.socks.library.KLog;
+import java.util.Random;
 import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -91,7 +92,15 @@ public class NewAccountFragment extends BaseFragment {
 
           try {
             JSONObject jObjError = new JSONObject(response.errorBody().string());
-            DialogFactory.createGenericErrorDialog(getActivity(), jObjError.getString("error") ).show();
+
+            DialogFactory.error_toast(getActivity(), jObjError.getString("error") ).show();
+
+            if(jObjError.getString("error").contains("Seems you already have an account")){
+              SecurityHolder.storePIN(getContext(),String.valueOf(new Random().nextInt(99999))); //store a fake pin, forcing the user to recover it
+              getActivity().finish();
+              return;
+            }
+
             return;
           } catch (Exception e) {
             KLog.e(e);
