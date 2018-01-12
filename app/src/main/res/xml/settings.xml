@@ -10,13 +10,18 @@
 
   <Preference
       android:key="@string/erase_everything"
-      android:summary="This will erase everything that this app knows"
+      android:summary="This is equivalent to uninstall / install"
       android:title="Reset Application"/>
 
   <Preference
       android:key="@string/export_wallet"
       android:summary="display the public / private keys"
       android:title="Export Wallet"/>
+
+  <Preference
+      android:key="@string/change_pin"
+      android:summary="changes the pin code"
+      android:title="Change PIN"/>
 
   <Preference
       android:key="@string/send_feedback"
