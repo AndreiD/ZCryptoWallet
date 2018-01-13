@@ -178,23 +178,25 @@ public class HomeFragment extends BaseFragment {
         }
 
         JsonObject balanceJsonObject = response.body();
-        String confirmed_balance_public = balanceJsonObject.get("confirmed_balance_public").getAsString().replaceAll(",",".");
-        String confirmed_balance_private = balanceJsonObject.get("confirmed_balance_private").getAsString().replaceAll(",",".");
-        String unconfirmed_balance_public = balanceJsonObject.get("unconfirmed_balance_public").getAsString().replaceAll(",",".");
-        String unconfirmed_balance_private = balanceJsonObject.get("unconfirmed_balance_private").getAsString().replaceAll(",",".");
+        double confirmed_balance_public = balanceJsonObject.get("confirmed_balance_public").getAsDouble();
+        double confirmed_balance_private = balanceJsonObject.get("confirmed_balance_private").getAsDouble();
+        double unconfirmed_balance_public = balanceJsonObject.get("unconfirmed_balance_public").getAsDouble();
+        double unconfirmed_balance_private = balanceJsonObject.get("unconfirmed_balance_private").getAsDouble();
 
-        confirmed_balance_public = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_public));
-        confirmed_balance_private = new DecimalFormat("#.#######").format(Double.valueOf(confirmed_balance_private));
-        unconfirmed_balance_public =
-            new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_public) - Double.valueOf(confirmed_balance_public));
-        unconfirmed_balance_private =
-            new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_private) - Double.valueOf(confirmed_balance_private));
 
-        SecurityHolder.current_balance_public = Double.valueOf(confirmed_balance_public);
-        SecurityHolder.current_balance_private = Double.valueOf(confirmed_balance_private);
+        unconfirmed_balance_public =unconfirmed_balance_public - confirmed_balance_public;
+        unconfirmed_balance_private =unconfirmed_balance_private - confirmed_balance_private;
+
+
+        //    new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_public) - Double.valueOf(confirmed_balance_public));
+        //unconfirmed_balance_private =
+        //    new DecimalFormat("#.#######").format(Double.valueOf(unconfirmed_balance_private) - Double.valueOf(confirmed_balance_private));
+
+        SecurityHolder.current_balance_public = confirmed_balance_public;
+        SecurityHolder.current_balance_private = confirmed_balance_private;
 
         //public balances are equals
-        if ((confirmed_balance_public.equals(unconfirmed_balance_public)) || (Double.valueOf(unconfirmed_balance_public) == 0)) {
+        if ((confirmed_balance_public == unconfirmed_balance_public) || (unconfirmed_balance_public == 0)) {
           textView_fragmentHome_balance_public.setText(confirmed_balance_public + " ZEN");
         } else {
           //there are unconfirmed balances!
@@ -202,7 +204,7 @@ public class HomeFragment extends BaseFragment {
         }
 
         //private balances are equals
-        if (confirmed_balance_private.equals(unconfirmed_balance_private) || (Double.valueOf(unconfirmed_balance_private) == 0)) {
+        if ((confirmed_balance_private == unconfirmed_balance_private) || (unconfirmed_balance_private == 0)) {
           textView_fragmentHome_balance_private.setText(confirmed_balance_private + " ZEN");
         } else {
           //there are unconfirmed balances!
