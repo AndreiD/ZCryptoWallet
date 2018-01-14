@@ -90,7 +90,6 @@ public class SendFragment extends BaseFragment {
       send_linlayout_memo.setVisibility(View.GONE);
     }
 
-    send_editText_to.setText("zcXWDQi8nTRWzuH6G1CgUBrhuqr2KJVKdxF2mLmDbBh1YhZXpc3BPKiXpw3eDq1FoKpJCs9x5mDnX6rhZDQGYMoQbf9FsPq");
 
     send_editText_to.addTextChangedListener(new TextWatcher() {
       @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
