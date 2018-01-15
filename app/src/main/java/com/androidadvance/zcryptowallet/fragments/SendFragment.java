@@ -2,7 +2,9 @@ package com.androidadvance.zcryptowallet.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -50,8 +52,10 @@ public class SendFragment extends BaseFragment {
   @BindView(R.id.send_radioButtonPrivate) RadioButton send_radioButtonPrivate;
   @BindView(R.id.send_textView_amount) TextView send_textView_amount;
   @BindView(R.id.send_textView_zen) TextView send_textView_zen;
+  @BindView(R.id.send_textView_fee) TextView send_textView_fee;
 
-  public static double FEE = 0.0001;
+
+  public static double fee = 0.0001;
   private ProgressDialog progressDialog;
   private double zentousd = 0;
 
@@ -90,6 +94,9 @@ public class SendFragment extends BaseFragment {
       send_linlayout_memo.setVisibility(View.GONE);
     }
 
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    fee = Double.valueOf(sharedPreferences.getString(getString(R.string.set_fee), "0.0001"));
+    send_textView_fee.setText(String.format("Fee: " + new DecimalFormat("#.#######").format(fee)) + " ZEN");
 
     send_editText_to.addTextChangedListener(new TextWatcher() {
       @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -176,25 +183,25 @@ public class SendFragment extends BaseFragment {
       return;
     }
 
-    if (amount_to_send + FEE <= 0) {
+    if (amount_to_send + fee <= 0) {
       DialogFactory.warning_toast(getActivity(), "Please enter the amount you want to send").show();
       return;
     }
 
     if (send_radioButtonPublic.isChecked()) {
       //public
-      if (SecurityHolder.current_balance_public < (amount_to_send + FEE)) {
+      if (SecurityHolder.current_balance_public < (amount_to_send + fee)) {
         DialogFactory.warning_toast(getActivity(), "Seems you don't have enough ZEN for this transaction.").show();
         return;
       }
-      sendTheMoney("public", send_editText_to.getText().toString().trim(), amount_to_send, FEE);
+      sendTheMoney("public", send_editText_to.getText().toString().trim(), amount_to_send, fee);
     } else {
       //private
-      if (SecurityHolder.current_balance_private < (amount_to_send + FEE)) {
+      if (SecurityHolder.current_balance_private < (amount_to_send + fee)) {
         DialogFactory.warning_toast(getActivity(), "Seems you don't have enough ZEN for this transaction.").show();
         return;
       }
-      sendTheMoney("private", send_editText_to.getText().toString().trim(), amount_to_send, FEE);
+      sendTheMoney("private", send_editText_to.getText().toString().trim(), amount_to_send, fee);
     }
   }
 

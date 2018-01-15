@@ -35,4 +35,5 @@
   <string name="address_book">Address Book</string>
   <string name="export_wallet">Export Wallet</string>
   <string name="change_pin">Change PIN</string>
+  <string name="set_fee">Set Fee</string>
 </resources>

@@ -52,14 +52,14 @@ public interface TheAPI {
             .add("kimg.fun", "sha256/Vjs8r4z+80wjNcr1YKepWQboSIRi63WsWXhIMN+eWys=")
             .build());
 
-        //if (BuildConfig.DEBUG) {
+      if (BuildConfig.DEBUG) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addInterceptor(interceptor);
-        //}
+        }
 
         builder.addInterceptor(chain -> {
-          Request request = chain.request().newBuilder().addHeader("Auth", "HelloDolly!").build();
+          Request request = chain.request().newBuilder().addHeader("Auth", "XHYUFJAN123fs").build();
           return chain.proceed(request);
         });
 

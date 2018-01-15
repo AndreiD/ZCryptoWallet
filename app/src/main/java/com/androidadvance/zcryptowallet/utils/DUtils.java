@@ -1,7 +1,10 @@
 package com.androidadvance.zcryptowallet.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
+import android.view.inputmethod.InputMethodManager;
 import com.socks.library.KLog;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -43,6 +46,11 @@ public class DUtils {
       }
       return phrase.toString();
     }
+  }
+
+  public static void hideKeyboard(Context ctx){
+    InputMethodManager imm = (InputMethodManager) ctx.getSystemService(Activity.INPUT_METHOD_SERVICE);
+    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
   }
 
   @SuppressLint("NewApi") public final static boolean isValidEmail(CharSequence target) {

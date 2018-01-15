@@ -10,6 +10,7 @@ import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseActivity;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.fragments.NewAccountFragment;
+import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 
@@ -40,6 +41,8 @@ public class NewPinActivity extends BaseActivity {
       DialogFactory.error_toast(NewPinActivity.this, "Pin is too short. Type at least 4 numbers please").show();
       return;
     }
+
+    DUtils.hideKeyboard(NewPinActivity.this);
 
     SecurityHolder.pin = pin1; //saves it temporarily in memory
 

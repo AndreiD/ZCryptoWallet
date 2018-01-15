@@ -79,6 +79,8 @@ public class EnterPinActivity extends BaseActivity {
           return;
         }
 
+        DUtils.hideKeyboard(EnterPinActivity.this);
+
         JsonObject jsonObject = response.body();
         if (!jsonObject.has("privateaddresskey")) {
           DialogFactory.error_toast(mContext, "Failed to get balances for your account. Device ID was not found: "  + DUtils.getShortID()).show();

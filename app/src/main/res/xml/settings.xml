@@ -23,6 +23,12 @@
       android:summary="changes the pin code"
       android:title="Change PIN"/>
 
+  <EditTextPreference
+      android:key="@string/set_fee"
+      android:defaultValue="0.0001"
+      android:summary="Changes the fee. Default is 0.0001 ZEN"
+      android:title="Change Fee"/>
+
   <Preference
       android:key="@string/send_feedback"
       android:summary="We appreciate your feedback. What did you like or dislike ?"
