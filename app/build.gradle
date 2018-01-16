@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'io.objectbox'
 
 android {
   compileSdkVersion 27
@@ -106,6 +107,9 @@ dependencies {
     transitive = true
   }
   compile 'com.google.firebase:firebase-core:11.8.0'
+
+  compile "io.objectbox:objectbox-android:1.4.0"
+  annotationProcessor "io.objectbox:objectbox-processor:1.4.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

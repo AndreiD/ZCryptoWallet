@@ -1,15 +1,18 @@
 package com.androidadvance.zcryptowallet.data.local;
 
-import com.google.gson.annotations.SerializedName;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 
-public class Contact {
+@Entity public class Contact {
 
-  @SerializedName("name") private String name;
+  @Id public long id;
+  String name;
+  String address;
 
-  @SerializedName("address") private String address;
+  public Contact() {
+  }
 
   public Contact(String name, String address) {
-
     this.name = name;
     this.address = address;
   }

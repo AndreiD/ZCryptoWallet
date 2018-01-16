@@ -1,9 +1,13 @@
 package com.androidadvance.zcryptowallet.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,24 +16,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.androidadvance.zcryptowallet.BaseApplication;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
+import com.androidadvance.zcryptowallet.adapters.ContactsAdapter;
 import com.androidadvance.zcryptowallet.data.local.Contact;
+import com.androidadvance.zcryptowallet.events.ContactClickedEvent;
 import com.androidadvance.zcryptowallet.qrscanner.QRScannerActivity;
+import com.androidadvance.zcryptowallet.utils.DUtils;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.socks.library.KLog;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import io.objectbox.Box;
+import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class AddressBookFragment extends BaseFragment {
 
@@ -38,6 +40,8 @@ public class AddressBookFragment extends BaseFragment {
   @BindView(R.id.send_imageButton_scanqr_addressbook) ImageView send_imageButton_scanqr_addressbook;
   @BindView(R.id.send_imageButton_save_addressbook) ImageView send_imageButton_save_addressbook;
   @BindView(R.id.recyclerview_addressbook) RecyclerView recyclerview_addressbook;
+  private Box<Contact> contactBox;
+  private ContactsAdapter mAdapter;
 
   public AddressBookFragment() {
   }
@@ -54,6 +58,15 @@ public class AddressBookFragment extends BaseFragment {
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+
+    contactBox = ((BaseApplication) getActivity().getApplication()).getBoxStore().boxFor(Contact.class);
+
+
+    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+    recyclerview_addressbook.setLayoutManager(mLayoutManager);
+    recyclerview_addressbook.setItemAnimator(new DefaultItemAnimator());
+
+
   }
 
   @OnClick(R.id.send_imageButton_scanqr_addressbook) public void onClickScanQRCode() {
@@ -67,6 +80,14 @@ public class AddressBookFragment extends BaseFragment {
       DialogFactory.warning_toast(getActivity(), "Please enter contact name and it's ZEN address.").show();
       return;
     }
+
+    contactBox.put(new Contact(editText_add_new_contact_name.getText().toString().trim(), edittext_add_new_contact_address.getText().toString().trim()));
+    DialogFactory.simple_toast(getActivity(), "Saved").show();
+
+    editText_add_new_contact_name.setText("");
+    edittext_add_new_contact_address.setText("");
+    DUtils.hideKeyboard(getActivity());
+    refreshContactsList();
   }
 
   @Override public void onResume() {
@@ -75,110 +96,71 @@ public class AddressBookFragment extends BaseFragment {
       edittext_add_new_contact_address.setText(SecurityHolder.lastScanAddress);
     }
 
-    // populateContacts();
+    refreshContactsList();
 
-    test_contacts();
+
   }
 
-  private void test_contacts() {
+  private void refreshContactsList() {
 
-    //save two
+    List<Contact> contactList = contactBox.getAll();
+    KLog.d(">>>> LISTING CONTACTS <<<<<<<");
+    KLog.d(contactList.toString());
+    KLog.d(">>>> LISTING CONTACTS <<<<<<<");
 
-    JSONArray jsonArray = new JSONArray();
-    try {
-      jsonArray = new JSONArray(readFromFile());
-    } catch (JSONException e) {
-      e.printStackTrace();
+    if(contactList.size() < 1){
+      return;
     }
 
-    Gson gson = new Gson();
-    String json = gson.toJson(new Contact("ne", "address"));
-    jsonArray.put(json);
-    SecurityHolder.storeContacts(getActivity(), json);
-
-    json = gson.toJson(new Contact("ne2", "address2"));
-    jsonArray.put(json);
-
-    writeToFile(jsonArray.toString());
-
-
-    try {
-      JSONArray jarrayNew = new JSONArray(readFromFile());
-      KLog.d(jarrayNew.toString());
-      KLog.d("Length: " + jarrayNew.length());
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
+    mAdapter = new ContactsAdapter(contactList,getActivity());
+    recyclerview_addressbook.setAdapter(mAdapter);
   }
 
-  private void populateContacts() {
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void onContactClickedEvent(ContactClickedEvent event) {
 
-    SecurityHolder.storeContacts(getActivity(), "");
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+    builder.setTitle(event.contact.getName());
+    builder.setItems(new CharSequence[]
+            {"Copy to Clipboard", "Delete", "Cancel"}, (dialog, which) -> {
+              switch (which) {
+                case 0:
+                  android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                  android.content.ClipData clip = android.content.ClipData.newPlainText("address",event.contact.getAddress());
+                  if (clipboard != null) {
+                    clipboard.setPrimaryClip(clip);
+                    DialogFactory.simple_toast(getActivity(),"Address copied in your clipboard").show();
+                  }
 
-    String contactsRaw = SecurityHolder.getContacts(getActivity());
-    try {
-      JSONArray jsonArray = new JSONArray(contactsRaw);
-      KLog.d("WE HAVE A TOTAL OF : " + jsonArray.length() + " CONTACTS!");
+                  break;
+                case 1:
+                  contactBox.remove(event.contact);
+                  DialogFactory.simple_toast(getActivity(),"Deleted").show();
+                  refreshContactsList();
+                  break;
+                case 2:
+                  dialog.dismiss();
+                  break;
+                default:
+                  KLog.d("no event...");
+                  break;
+              }
+            });
+    builder.create().show();
 
-      JsonObject contactJsonObject = new JsonObject();
-      contactJsonObject.addProperty("entry_name", "xyz...");
-      contactJsonObject.addProperty("address", "address here...");
-      jsonArray.put(contactJsonObject);
 
-      JsonObject contactJsonObject2 = new JsonObject();
-      contactJsonObject2.addProperty("entry_name", "xyz2...");
-      contactJsonObject2.addProperty("address", "address here2...");
-      jsonArray.put(contactJsonObject2);
-
-      JsonObject contactJsonObject3 = new JsonObject();
-      contactJsonObject3.addProperty("entry_name", "xyz3...");
-      contactJsonObject3.addProperty("address", "address here3...");
-      jsonArray.put(contactJsonObject3);
-
-      SecurityHolder.storeContacts(getActivity(), jsonArray.toString());
-    } catch (JSONException e) {
-      KLog.e(e);
-    }
-
-    KLog.d(" AND GET THEM : " + SecurityHolder.getContacts(getActivity()));
   }
 
-  private void writeToFile(String data) {
-    try {
-      OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().openFileOutput("addressbook.txt", Context.MODE_PRIVATE));
-      outputStreamWriter.write(data);
-      outputStreamWriter.close();
-    } catch (IOException e) {
-      KLog.e("Exception", "File write failed: " + e.toString());
-    }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    EventBus.getDefault().register(this);
   }
 
-  private String readFromFile() {
-
-    String ret = "";
-
-    try {
-      InputStream inputStream = getActivity().openFileInput("addressbook.txt");
-
-      if (inputStream != null) {
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        String receiveString = "";
-        StringBuilder stringBuilder = new StringBuilder();
-
-        while ((receiveString = bufferedReader.readLine()) != null) {
-          stringBuilder.append(receiveString);
-        }
-
-        inputStream.close();
-        ret = stringBuilder.toString();
-      }
-    } catch (FileNotFoundException e) {
-      KLog.e("login activity", "File not found: " + e.toString());
-    } catch (IOException e) {
-      KLog.e("login activity", "Can not read file: " + e.toString());
-    }
-
-    return ret;
+  @Override
+  public void onStop() {
+    super.onStop();
+    EventBus.getDefault().unregister(this);
   }
 }
