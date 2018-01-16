@@ -1,5 +1,6 @@
 package com.androidadvance.zcryptowallet.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,10 +14,22 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseFragment;
 import com.androidadvance.zcryptowallet.R;
+import com.androidadvance.zcryptowallet.data.local.Contact;
 import com.androidadvance.zcryptowallet.qrscanner.QRScannerActivity;
 import com.androidadvance.zcryptowallet.utils.DialogFactory;
 import com.androidadvance.zcryptowallet.utils.SecurityHolder;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.socks.library.KLog;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AddressBookFragment extends BaseFragment {
 
@@ -41,8 +54,6 @@ public class AddressBookFragment extends BaseFragment {
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-
-
   }
 
   @OnClick(R.id.send_imageButton_scanqr_addressbook) public void onClickScanQRCode() {
@@ -52,13 +63,10 @@ public class AddressBookFragment extends BaseFragment {
   }
 
   @OnClick(R.id.send_imageButton_save_addressbook) public void onClickSave() {
-    if( (editText_add_new_contact_name.getText().toString().isEmpty()) || (edittext_add_new_contact_address.getText().toString().length() < 25)){
-      DialogFactory.warning_toast(getActivity(),"Please enter contact name and it's ZEN address.").show();
+    if ((editText_add_new_contact_name.getText().toString().isEmpty()) || (edittext_add_new_contact_address.getText().toString().length() < 25)) {
+      DialogFactory.warning_toast(getActivity(), "Please enter contact name and it's ZEN address.").show();
       return;
     }
-
-
-
   }
 
   @Override public void onResume() {
@@ -67,15 +75,110 @@ public class AddressBookFragment extends BaseFragment {
       edittext_add_new_contact_address.setText(SecurityHolder.lastScanAddress);
     }
 
-    populateContacts();
+    // populateContacts();
 
+    test_contacts();
+  }
+
+  private void test_contacts() {
+
+    //save two
+
+    JSONArray jsonArray = new JSONArray();
+    try {
+      jsonArray = new JSONArray(readFromFile());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+
+    Gson gson = new Gson();
+    String json = gson.toJson(new Contact("ne", "address"));
+    jsonArray.put(json);
+    SecurityHolder.storeContacts(getActivity(), json);
+
+    json = gson.toJson(new Contact("ne2", "address2"));
+    jsonArray.put(json);
+
+    writeToFile(jsonArray.toString());
+
+
+    try {
+      JSONArray jarrayNew = new JSONArray(readFromFile());
+      KLog.d(jarrayNew.toString());
+      KLog.d("Length: " + jarrayNew.length());
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
   }
 
   private void populateContacts() {
 
-    SecurityHolder.storeContacts(getActivity(),"This are the contacts");
+    SecurityHolder.storeContacts(getActivity(), "");
+
+    String contactsRaw = SecurityHolder.getContacts(getActivity());
+    try {
+      JSONArray jsonArray = new JSONArray(contactsRaw);
+      KLog.d("WE HAVE A TOTAL OF : " + jsonArray.length() + " CONTACTS!");
+
+      JsonObject contactJsonObject = new JsonObject();
+      contactJsonObject.addProperty("entry_name", "xyz...");
+      contactJsonObject.addProperty("address", "address here...");
+      jsonArray.put(contactJsonObject);
+
+      JsonObject contactJsonObject2 = new JsonObject();
+      contactJsonObject2.addProperty("entry_name", "xyz2...");
+      contactJsonObject2.addProperty("address", "address here2...");
+      jsonArray.put(contactJsonObject2);
+
+      JsonObject contactJsonObject3 = new JsonObject();
+      contactJsonObject3.addProperty("entry_name", "xyz3...");
+      contactJsonObject3.addProperty("address", "address here3...");
+      jsonArray.put(contactJsonObject3);
+
+      SecurityHolder.storeContacts(getActivity(), jsonArray.toString());
+    } catch (JSONException e) {
+      KLog.e(e);
+    }
 
     KLog.d(" AND GET THEM : " + SecurityHolder.getContacts(getActivity()));
+  }
 
+  private void writeToFile(String data) {
+    try {
+      OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().openFileOutput("addressbook.txt", Context.MODE_PRIVATE));
+      outputStreamWriter.write(data);
+      outputStreamWriter.close();
+    } catch (IOException e) {
+      KLog.e("Exception", "File write failed: " + e.toString());
+    }
+  }
+
+  private String readFromFile() {
+
+    String ret = "";
+
+    try {
+      InputStream inputStream = getActivity().openFileInput("addressbook.txt");
+
+      if (inputStream != null) {
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        String receiveString = "";
+        StringBuilder stringBuilder = new StringBuilder();
+
+        while ((receiveString = bufferedReader.readLine()) != null) {
+          stringBuilder.append(receiveString);
+        }
+
+        inputStream.close();
+        ret = stringBuilder.toString();
+      }
+    } catch (FileNotFoundException e) {
+      KLog.e("login activity", "File not found: " + e.toString());
+    } catch (IOException e) {
+      KLog.e("login activity", "Can not read file: " + e.toString());
+    }
+
+    return ret;
   }
 }

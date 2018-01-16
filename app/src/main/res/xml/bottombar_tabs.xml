@@ -21,11 +21,11 @@
         barColorWhenSelected="@color/app_black"
         title="Receive" />
     <tab
-        id="@+id/tab_settings"
-        icon="@drawable/ic_settings_24dp"
+        id="@+id/tab_address_book"
+        icon="@drawable/ic_address_book"
         inActiveColor="#888888"
         activeColor="@color/white"
         barColorWhenSelected="@color/app_black"
-        title="Settings" />
+        title="Addresses" />
 
 </tabs>

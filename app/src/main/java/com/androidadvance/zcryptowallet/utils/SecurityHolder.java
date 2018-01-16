@@ -20,9 +20,6 @@ public class SecurityHolder {
 
   //Using a rooted phone is not recommended :)
   public static void storeContacts(Context ctx, String contacts) {
-    if(contacts.isEmpty()){
-      return;
-    }
     try {
       PreferencesHelper preferencesHelper = new PreferencesHelper(ctx);
       AesCbcWithIntegrity.SecretKeys key = AesCbcWithIntegrity.generateKeyFromPassword(SecurityHolder.pin, DUtils.getUniqueID());

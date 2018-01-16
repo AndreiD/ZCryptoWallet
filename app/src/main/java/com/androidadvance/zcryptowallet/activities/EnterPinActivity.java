@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.androidadvance.zcryptowallet.BaseActivity;
+import com.androidadvance.zcryptowallet.BuildConfig;
 import com.androidadvance.zcryptowallet.R;
 import com.androidadvance.zcryptowallet.data.remote.TheAPI;
 import com.androidadvance.zcryptowallet.utils.DUtils;
@@ -21,8 +22,6 @@ import com.androidadvance.zcryptowallet.utils.SecurityHolder;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.socks.library.KLog;
-import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,10 +46,10 @@ public class EnterPinActivity extends BaseActivity {
     ButterKnife.bind(this);
     mContext = EnterPinActivity.this;
 
-    //if (BuildConfig.DEBUG) { //TODO: move it to local.properties
-    //  editText_pin1.setText("123123");
-    //  btn_verify_pin.performClick();
-    //}
+    if (BuildConfig.DEBUG) { //TODO: move it to local.properties
+      editText_pin1.setText("123123");
+      btn_verify_pin.performClick();
+    }
 
 
   }

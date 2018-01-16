@@ -5,7 +5,7 @@
   <SwitchPreference
       android:defaultValue="false"
       android:key="prefs_notifications"
-      android:summary="Get notified when you receive ZEN (under development, not working now)"
+      android:summary="Get notified when you receive ZEN"
       android:title="Enable Notifications"/>
 
   <Preference

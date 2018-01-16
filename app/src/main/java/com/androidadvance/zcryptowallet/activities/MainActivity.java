@@ -57,10 +57,6 @@ public class MainActivity extends BaseActivity {
         t.commit();
       }
       if (tabId == R.id.tab_home) {
-        AddressBookFragment myFragment = (AddressBookFragment) getSupportFragmentManager().findFragmentByTag("fragment_address_book");
-        if (myFragment != null && myFragment.isVisible()) {
-          KLog.d("YES< ITS VISIBLE!");
-        }
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.replace(R.id.contentContainer, HomeFragment.newInstance(isjustcreated));
         t.addToBackStack("fragment_home");
@@ -72,8 +68,11 @@ public class MainActivity extends BaseActivity {
         t.addToBackStack("fragment_receive");
         t.commit();
       }
-      if (tabId == R.id.tab_settings) {
-        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+      if (tabId == R.id.tab_address_book) {
+               FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.contentContainer, AddressBookFragment.newInstance());
+        t.addToBackStack("fragment_home");
+        t.commit();
       }
     });
 
